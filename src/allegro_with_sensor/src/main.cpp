@@ -61,9 +61,25 @@ int calib_switch[4];
 float FT[12];
 float FT_temp[12];
 
-float allegro_config[16];
 
-int c;
+//subscribe and control
+// double allegro_des[16];
+
+bool bRun = true;
+int c = 0;
+
+double kp[] = {
+    500, 800, 900, 500,
+    500, 800, 900, 500,
+    500, 800, 900, 500,
+    1000, 700, 600, 600
+};
+double kd[] = {
+    25, 50, 55, 40,
+    25, 50, 55, 40,
+    25, 50, 55, 40,
+    50, 50, 50, 40
+};
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // functions declarations
@@ -79,14 +95,15 @@ void ComputeTorque();
 
 void joint_config_Callback(const std_msgs::Float64MultiArray::ConstPtr& msg)
 {
-    // for (int i = 0; i < 16; i++)
-    // {
-    //     allegro_config[i] = msg->data[i];
-    //     printf("%.4f", msg->data[i]);
-    //     printf("%.4f", allegro_config[i]);
-    //     c = '2';
-    // }
+    for (int i = 0; i < 16; i++)
+    {
+        q_des[i] = msg->data[i];
+        c = 2;
+    }
+    pBHand->SetMotionType(eMotionType_JOINT_PD);
+	pBHand->SetGainsEx(kp, kd);
     printf("get message");
+    printf("%d", c);
     printf("\n");
 }
 
@@ -155,11 +172,6 @@ static void* ioThreadProc(void* inst)
 //            for(int nd=0; nd<len; nd++)
 //                printf("%02x ", data[nd]);
 //            printf("\n");
-
-///////////////////////Hand_config_subscriber//////////////////////
-
-            // ros::Subscriber allegro_config_sub = nh.subscribe("/allegro_joint_desired", 10, joint_config_Callback);
-            // ros::spinOnce();
 
 /////////////////////////////////FT Sensor Value Prints//////////////////////////////////
             switch(id)
@@ -331,7 +343,8 @@ static void* ioThreadProc(void* inst)
                         }
                             break;
                         default:
-                            printf("");
+                            continue;
+                            // printf("");
                             /*for(int nd=0; nd<len; nd++)
                                 printf("%d \n ", data[nd]);*/
                             //return;
@@ -346,73 +359,73 @@ static void* ioThreadProc(void* inst)
 // Application main-loop. It handles the commands from rPanelManipulator and keyboard events
 void MainLoop()
 {
-    bool bRun = true;
 
     while (bRun)
     {
         ros::NodeHandle nh_2;
         ros::Subscriber allegro_config_sub = nh_2.subscribe("/allegro_joint_desired", 10, joint_config_Callback);
-        ros::spinOnce();
-        c = Getch();
-        switch (c)
-        {
-        case 'q':
-            if (pBHand) pBHand->SetMotionType(eMotionType_NONE);
-            bRun = false;
-            break;
 
-        case 'h':
-            if (pBHand) pBHand->SetMotionType(eMotionType_HOME);
-            break;
+//         c = Getch();
+//         switch (c)
+//         {
+//         case 'q':
+//             if (pBHand) pBHand->SetMotionType(eMotionType_NONE);
+//             bRun = false;
+//             break;
 
-        case 'r':
-            if (pBHand) pBHand->SetMotionType(eMotionType_READY);
-            break;
+//         case 'h':
+//             if (pBHand) pBHand->SetMotionType(eMotionType_HOME);
+//             break;
 
-        case 'g':
-            if (pBHand) pBHand->SetMotionType(eMotionType_GRASP_3);
-            break;
+//         case 'r':
+//             if (pBHand) pBHand->SetMotionType(eMotionType_READY);
+//             break;
 
-        case 'k':
-            if (pBHand) pBHand->SetMotionType(eMotionType_GRASP_4);
-            break;
+//         case 'g':
+//             if (pBHand) pBHand->SetMotionType(eMotionType_GRASP_3);
+//             break;
 
-        case 'p':
-            if (pBHand) pBHand->SetMotionType(eMotionType_PINCH_IT);
-            break;
+//         case 'k':
+//             if (pBHand) pBHand->SetMotionType(eMotionType_GRASP_4);
+//             break;
 
-        case 'm':
-            if (pBHand) pBHand->SetMotionType(eMotionType_PINCH_MT);
-            break;
+//         case 'p':
+//             if (pBHand) pBHand->SetMotionType(eMotionType_PINCH_IT);
+//             break;
 
-        case 'a':
-            if (pBHand) pBHand->SetMotionType(eMotionType_GRAVITY_COMP);
-            break;
+//         case 'm':
+//             if (pBHand) pBHand->SetMotionType(eMotionType_PINCH_MT);
+//             break;
 
-        case 'e':
-            if (pBHand) pBHand->SetMotionType(eMotionType_ENVELOP);
-            break;
+//         case 'a':
+//             if (pBHand) pBHand->SetMotionType(eMotionType_GRAVITY_COMP);
+//             break;
 
-        case 'f':
-            if (pBHand) pBHand->SetMotionType(eMotionType_NONE);
-            break;
+//         case 'e':
+//             if (pBHand) pBHand->SetMotionType(eMotionType_ENVELOP);
+//             break;
 
-        case '1':
-            MotionRock();
-            break;
+//         case 'f':
+//             if (pBHand) pBHand->SetMotionType(eMotionType_NONE);
+//             break;
 
-        case '2':
-            MotionScissors();
-            break;
+//         case '1':
+//             MotionRock();
+//             break;
 
-        case '3':
-            MotionPaper();
-            break;
-/////////////////////motion_tests/////////////////////////
-        case '4':
-            // if (pBHand) pBHand->SetJointPosition();
-            break;
-        }
+//         case '2':
+//             MotionScissors();
+//             break;
+
+//         case '3':
+//             MotionPaper();
+//             break;
+// /////////////////////motion_tests/////////////////////////
+//         case '4':
+//             // if (pBHand) pBHand->SetJointPosition();
+//             break;
+//         }
+        ros::spin();
     }
 }
 
