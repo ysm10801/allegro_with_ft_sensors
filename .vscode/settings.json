@@ -6,5 +6,12 @@
         "/opt/ros/noetic/lib/python3/dist-packages"
     ],
     "C_Cpp.errorSquiggles": "enabled",
-    "cmake.configureOnOpen": false
+    "cmake.configureOnOpen": false,
+    "files.associations": {
+        "array": "cpp",
+        "string": "cpp",
+        "string_view": "cpp",
+        "deque": "cpp",
+        "vector": "cpp"
+    }
 }

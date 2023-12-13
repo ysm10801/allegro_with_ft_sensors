@@ -79,11 +79,14 @@ void ComputeTorque();
 
 void joint_config_Callback(const std_msgs::Float64MultiArray::ConstPtr& msg)
 {
-    for (size_t i = 0; i < 16; i++)
-    {
-        allegro_config[i] = msg->data[i];
-        printf("%.4f", allegro_config[i]);
-    }
+    // for (int i = 0; i < 16; i++)
+    // {
+    //     allegro_config[i] = msg->data[i];
+    //     printf("%.4f", msg->data[i]);
+    //     printf("%.4f", allegro_config[i]);
+    //     c = '2';
+    // }
+    printf("get message");
     printf("\n");
 }
 
@@ -155,7 +158,8 @@ static void* ioThreadProc(void* inst)
 
 ///////////////////////Hand_config_subscriber//////////////////////
 
-            // ros::Subscriber allegro_config_sub = nh.subscribe("/allegro_joint_desired", 1000, joint_config_Callback);
+            // ros::Subscriber allegro_config_sub = nh.subscribe("/allegro_joint_desired", 10, joint_config_Callback);
+            // ros::spinOnce();
 
 /////////////////////////////////FT Sensor Value Prints//////////////////////////////////
             switch(id)
@@ -346,6 +350,9 @@ void MainLoop()
 
     while (bRun)
     {
+        ros::NodeHandle nh_2;
+        ros::Subscriber allegro_config_sub = nh_2.subscribe("/allegro_joint_desired", 10, joint_config_Callback);
+        ros::spinOnce();
         c = Getch();
         switch (c)
         {
