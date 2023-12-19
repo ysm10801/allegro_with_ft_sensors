@@ -68,19 +68,6 @@ float FT_temp[12];
 bool bRun = true;
 int c = 0;
 
-double kp[] = {
-    500, 800, 900, 500,
-    500, 800, 900, 500,
-    500, 800, 900, 500,
-    1000, 700, 600, 600
-};
-double kd[] = {
-    25, 50, 55, 40,
-    25, 50, 55, 40,
-    25, 50, 55, 40,
-    50, 50, 50, 40
-};
-
 /////////////////////////////////////////////////////////////////////////////////////////
 // functions declarations
 char Getch();
@@ -93,19 +80,7 @@ bool CreateBHandAlgorithm();
 void DestroyBHandAlgorithm();
 void ComputeTorque();
 
-void joint_config_Callback(const std_msgs::Float64MultiArray::ConstPtr& msg)
-{
-    for (int i = 0; i < 16; i++)
-    {
-        q_des[i] = msg->data[i];
-        c = 2;
-    }
-    pBHand->SetMotionType(eMotionType_JOINT_PD);
-	pBHand->SetGainsEx(kp, kd);
-    printf("get message");
-    printf("%d", c);
-    printf("\n");
-}
+
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Read keyboard input (one char) from stdin
@@ -132,6 +107,34 @@ char Getch()
         perror ("tcsetattr ~ICANON");
     printf("%c\n",buf);
     return buf;
+}
+
+void joint_config_Callback(const std_msgs::Float64MultiArray::ConstPtr& msg)
+{
+    double kp[] = {
+        500, 800, 900, 500,
+        500, 800, 900, 500,
+        500, 800, 900, 500,
+        1000, 700, 600, 600
+    };
+    double kd[] = {
+        25, 50, 55, 40,
+        25, 50, 55, 40,
+        25, 50, 55, 40,
+        50, 50, 50, 40
+    };
+    if (msg->data[0] > 10){
+        exit(0);
+    }
+    for (int i = 0; i < 16; i++)
+    {
+        q_des[i] = msg->data[i];
+    }
+    pBHand->SetMotionType(eMotionType_JOINT_PD);
+	pBHand->SetGainsEx(kp, kd);
+    printf("get message");
+    printf("%d", c);
+    printf("\n");
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -274,13 +277,13 @@ static void* ioThreadProc(void* inst)
 
                             if (data_return == (0x01 | 0x02 | 0x04 | 0x08))
                             {
-                                // convert encoder count to joint angle
+                                // convert encoder count to joint angle and publish
                                 for (i=0; i<MAX_DOF; i++)
                                 {
                                     q[i] = (double)(vars.enc_actual[i])*(333.3/65536.0)*(3.141592/180.0);
                                     allegro_config_msg.data.clear();
 
-                                    for (size_t i = 0; i < 16; i++)
+                                    for (size_t i = 0; i < MAX_DOF; i++)
                                     {
                                         allegro_config_msg.data.push_back(q[i]);
                                     }
@@ -439,17 +442,17 @@ void ComputeTorque()
     pBHand->UpdateControl(0);
     pBHand->GetJointTorque(tau_des);
 
-//    static int j_active[] = {
-//        0, 0, 0, 0,
-//        0, 0, 0, 0,
-//        0, 0, 0, 0,
-//        1, 1, 1, 1
-//    };
-//    for (int i=0; i<MAX_DOF; i++) {
-//        if (j_active[i] == 0) {
-//            tau_des[i] = 0;
-//        }
-//    }
+   static int j_active[] = {
+       1, 1, 1, 1,
+       1, 1, 1, 1,
+       1, 1, 1, 1,
+       1, 1, 1, 1
+   };
+   for (int i=0; i<MAX_DOF; i++) {
+       if (j_active[i] == 0) {
+           tau_des[i] = 0;
+       }
+   }
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

@@ -12,6 +12,8 @@
         "string": "cpp",
         "string_view": "cpp",
         "deque": "cpp",
-        "vector": "cpp"
+        "vector": "cpp",
+        "exception": "cpp",
+        "thread": "cpp"
     }
 }
