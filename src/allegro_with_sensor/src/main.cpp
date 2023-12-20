@@ -25,6 +25,27 @@ typedef char    TCHAR;
 #define _T(X)   X
 #define _tcsicmp(x, y)   strcmp(x, y)
 
+#define HAND_STOP 0
+#define HAND_POSES 1
+#define HAND_P_GAINS 2
+#define HAND_D_GAINS 3 
+
+
+// initial PD Gains
+
+double kp[] = {
+    500, 800, 900, 500,
+    500, 800, 900, 500,
+    500, 800, 900, 500,
+    1000, 700, 600, 600
+};
+double kd[] = {
+    25, 50, 55, 40,
+    25, 50, 55, 40,
+    25, 50, 55, 40,
+    50, 50, 50, 40
+};
+
 using namespace std;
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -81,7 +102,6 @@ void DestroyBHandAlgorithm();
 void ComputeTorque();
 
 
-
 /////////////////////////////////////////////////////////////////////////////////////////
 // Read keyboard input (one char) from stdin
 char Getch()
@@ -111,29 +131,45 @@ char Getch()
 
 void joint_config_Callback(const std_msgs::Float64MultiArray::ConstPtr& msg)
 {
-    double kp[] = {
-        500, 800, 900, 500,
-        500, 800, 900, 500,
-        500, 800, 900, 500,
-        1000, 700, 600, 600
-    };
-    double kd[] = {
-        25, 50, 55, 40,
-        25, 50, 55, 40,
-        25, 50, 55, 40,
-        50, 50, 50, 40
-    };
-    if (msg->data[0] > 10){
-        exit(0);
-    }
-    for (int i = 0; i < 16; i++)
+    switch (msg->layout.data_offset)
     {
-        q_des[i] = msg->data[i];
+    case HAND_STOP:     // Force stop
+        exit(0);
+        break;
+
+    case HAND_POSES:     // JOINT POSITIONS
+        for (int i = 0; i < 16; i++)
+        {
+            q_des[i] = msg->data[i];
+        }
+        pBHand->SetMotionType(eMotionType_JOINT_PD);
+	    pBHand->SetGainsEx(kp, kd);
+        printf("Joint Configuration Moved\n");
+        break;
+    
+    case HAND_P_GAINS:     // JOINT P gains
+        for (int i = 0; i < 16; i++)
+        {
+            kp[i] = msg->data[i];
+        }
+        pBHand->SetMotionType(eMotionType_JOINT_PD);
+	    pBHand->SetGainsEx(kp, kd);
+        printf("P Gain Changed\n");
+        break;
+    
+    case HAND_D_GAINS:     // JOINT D gains
+        for (int i = 0; i < MAX_DOF; i++)
+        {
+            kd[i] = msg->data[i];
+        }
+        pBHand->SetMotionType(eMotionType_JOINT_PD);
+	    pBHand->SetGainsEx(kp, kd);
+        printf("D Gain Changed\n");
+        break;
+
+    default:
+        break;
     }
-    pBHand->SetMotionType(eMotionType_JOINT_PD);
-	pBHand->SetGainsEx(kp, kd);
-    printf("get message");
-    printf("%d", c);
     printf("\n");
 }
 
@@ -151,8 +187,10 @@ static void* ioThreadProc(void* inst)
     ros::NodeHandle nh;
     ros::Publisher ft_pub = nh.advertise<std_msgs::Float64MultiArray>("/ft_sensor_value", 7);
     ros::Publisher allegro_config_pub = nh.advertise<std_msgs::Float64MultiArray>("/allegro_joint_configurations", 7);
+    ros::Publisher allegro_torque_pub = nh.advertise<std_msgs::Float64MultiArray>("/allegro_joint_torques", 7);
     std_msgs::Float64MultiArray ft_value_msg;
     std_msgs::Float64MultiArray allegro_config_msg;
+    std_msgs::Float64MultiArray allegro_torque_msg;
     while (ioThreadRun)
     {
         /* wait for the event */
@@ -254,6 +292,7 @@ static void* ioThreadProc(void* inst)
                         {
                             printf(">CAN(%d): AllegroHand serial number: SAH0%d0 %c%c%c%c%c%c%c%c\n", CAN_Ch, HAND_VERSION
                                 , data[0], data[1], data[2], data[3], data[4], data[5], data[6], data[7]);
+                            printf("DON'T PUSH ANY KEYS(FORCE STOP UNAVAILABLE WITH CTRL+C)\n");
                         }
                             break;
                         case ID_RTR_FINGER_POSE_1:
@@ -281,14 +320,14 @@ static void* ioThreadProc(void* inst)
                                 for (i=0; i<MAX_DOF; i++)
                                 {
                                     q[i] = (double)(vars.enc_actual[i])*(333.3/65536.0)*(3.141592/180.0);
-                                    allegro_config_msg.data.clear();
-
-                                    for (size_t i = 0; i < MAX_DOF; i++)
-                                    {
-                                        allegro_config_msg.data.push_back(q[i]);
-                                    }
-                                    allegro_config_pub.publish(allegro_config_msg);
                                 }
+                                allegro_config_msg.data.clear();
+
+                                for (size_t i = 0; i < MAX_DOF; i++)
+                                {
+                                    allegro_config_msg.data.push_back(q[i]);
+                                }
+                                allegro_config_pub.publish(allegro_config_msg);
 
                                 // // print joint angles
                                 // for (int i=0; i<4; i++)
@@ -299,6 +338,14 @@ static void* ioThreadProc(void* inst)
 
                                 // compute joint torque
                                 ComputeTorque();
+                                
+                                allegro_torque_msg.data.clear();
+
+                                for (size_t i = 0; i < MAX_DOF; i++)
+                                {
+                                    allegro_torque_msg.data.push_back(tau_des[i]);
+                                }
+                                allegro_torque_pub.publish(allegro_torque_msg);
 
                                 // convert desired torque to desired current and PWM count
                                 for (int i=0; i<MAX_DOF; i++)
@@ -365,8 +412,8 @@ void MainLoop()
 
     while (bRun)
     {
-        ros::NodeHandle nh_2;
-        ros::Subscriber allegro_config_sub = nh_2.subscribe("/allegro_joint_desired", 10, joint_config_Callback);
+        ros::NodeHandle nh_sub;
+        ros::Subscriber allegro_config_sub = nh_sub.subscribe("/allegro_joint_desired", 100, joint_config_Callback);
 
 //         c = Getch();
 //         switch (c)
@@ -442,17 +489,17 @@ void ComputeTorque()
     pBHand->UpdateControl(0);
     pBHand->GetJointTorque(tau_des);
 
-   static int j_active[] = {
-       1, 1, 1, 1,
-       1, 1, 1, 1,
-       1, 1, 1, 1,
-       1, 1, 1, 1
-   };
-   for (int i=0; i<MAX_DOF; i++) {
-       if (j_active[i] == 0) {
-           tau_des[i] = 0;
-       }
-   }
+//    static int j_active[] = {
+//        1, 1, 1, 1,
+//        1, 1, 1, 1,
+//        1, 1, 1, 1,
+//        1, 1, 1, 1
+//    };
+//    for (int i=0; i<MAX_DOF; i++) {
+//        if (j_active[i] == 0) {
+//            tau_des[i] = 0;
+//        }
+//    }
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
