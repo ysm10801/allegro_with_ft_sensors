@@ -1,0 +1,8 @@
+prefix=/home/yang/catkin_ws/install
+
+Name: allegro_with_sensor
+Description: Description of allegro_with_sensor
+Version: 0.0.0
+Cflags: 
+Libs: -L${prefix}/lib 
+Requires: 
