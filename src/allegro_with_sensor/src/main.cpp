@@ -77,14 +77,11 @@ const double tau_cov_const_v4 = 1200.0; // 1200.0 for SAH040xxxxx
 
 
 // hand calibrations
-float FT_calib[12];
-int calib_switch[4];
-float FT[12];
-float FT_temp[12];
+float FT_calib[12] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+int calib_switch[4] = {0, 0, 0, 0};
+float FT[12] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+float FT_temp[12] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 
-
-//subscribe and control
-// double allegro_des[16];
 
 bool bRun = true;
 int c = 0;
@@ -220,11 +217,11 @@ static void* ioThreadProc(void* inst)
                 case 26:
                     for(int i=0 ; i<3 ; i++){
                         FT_temp[i]=TransF(data[i*2], data[i*2+1]);
-                        FT[i]=FT_temp[i]-FT_calib[i];
+                        FT[i]=FT_temp[i]-FT_calib[i]/100.;
                     }
-                    if(calib_switch[0]<10){
+                    if(calib_switch[0]<100.){
                         for(int k=0 ; k<3 ; k++){
-                            FT_calib[k]=FT_temp[k];
+                            FT_calib[k]+=FT_temp[k];
                         }
                         calib_switch[0]++;
                     }
@@ -233,11 +230,11 @@ static void* ioThreadProc(void* inst)
                 case 27:
                     for(int i=0 ; i<3 ; i++){
                         FT_temp[i+3]=TransF(data[i*2], data[i*2+1]);
-                        FT[i+3]=FT_temp[i+3]-FT_calib[i+3];
+                        FT[i+3]=FT_temp[i+3]-FT_calib[i+3]/100.;
                     }
-                    if(calib_switch[1]<10){
+                    if(calib_switch[1]<100.){
                         for(int k=3 ; k<6 ; k++){
-                            FT_calib[k]=FT_temp[k];
+                            FT_calib[k]+=FT_temp[k];
                         }
                         calib_switch[1]++;
                     }
@@ -246,11 +243,11 @@ static void* ioThreadProc(void* inst)
                 case 42:
                     for(int i=0 ; i<3 ; i++){
                         FT_temp[i+6]=TransF(data[i*2], data[i*2+1]);
-                        FT[i+6]=FT_temp[i+6]-FT_calib[i+6];
+                        FT[i+6]=FT_temp[i+6]-FT_calib[i+6]/100.;
                     }
-                    if(calib_switch[2]<10){
+                    if(calib_switch[2]<100.){
                         for(int k=6 ; k<9 ; k++){
-                            FT_calib[k]=FT_temp[k];
+                            FT_calib[k]+=FT_temp[k];
                         }
                         calib_switch[2]++;
                     }
@@ -259,11 +256,11 @@ static void* ioThreadProc(void* inst)
                 case 43:
                     for(int i=0 ; i<3 ; i++){
                         FT_temp[i+9]=TransF(data[i*2], data[i*2+1]);
-                        FT[i+9]=FT_temp[i+9]-FT_calib[i+9];
+                        FT[i+9]=FT_temp[i+9]-FT_calib[i+9]/100.;
                     }
-                    if(calib_switch[3]<10){
+                    if(calib_switch[3]<100.){
                         for(int k=9 ; k<12 ; k++){
-                            FT_calib[k]=FT_temp[k];
+                            FT_calib[k]+=FT_temp[k];
                         }
                         calib_switch[3]++;
                     }
