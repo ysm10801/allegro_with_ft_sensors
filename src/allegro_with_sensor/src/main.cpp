@@ -18,8 +18,8 @@
 
 #define PEAKCAN (1)
 
-#define TransF(x, y)   (x*256+y)/100.-300
-#define TransT(x, y)   (x*256+y)/500.-50
+#define TransF(x, y)   (x*256+y)/1000.-30
+#define TransT(x, y)   (x*256+y)/100000.-0.3
 
 typedef char    TCHAR;
 #define _T(X)   X
@@ -29,6 +29,8 @@ typedef char    TCHAR;
 #define HAND_POSES 1
 #define HAND_P_GAINS 2
 #define HAND_D_GAINS 3 
+#define GRAVITY_COMP 4
+#define HAND_GRASP 5
 
 
 // initial PD Gains
@@ -163,11 +165,34 @@ void joint_config_Callback(const std_msgs::Float64MultiArray::ConstPtr& msg)
 	    pBHand->SetGainsEx(kp, kd);
         printf("D Gain Changed\n");
         break;
+    
+    case GRAVITY_COMP:
+        pBHand->SetMotionType(eMotionType_GRAVITY_COMP);
+        break;
+
+    case HAND_GRASP:
+        pBHand->SetMotionType(eMotionType_GRASP_4);
+        break;
 
     default:
         break;
     }
     printf("\n");
+}
+
+void GetFTVal(int sens_num, unsigned char data[8])
+{
+    int s = sens_num*3;
+    for(int i=0 ; i<3 ; i++){
+        FT_temp[i+s]=TransF(data[i*2], data[i*2+1]);
+        FT[i+s]=FT_temp[i+s]-FT_calib[i+s]/100.;
+    }
+    if(calib_switch[sens_num]<100.){
+        for(int k = s ; k<s+3 ; k++){
+            FT_calib[k]+=FT_temp[k];
+        }
+        calib_switch[sens_num]++;
+    }
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -215,56 +240,16 @@ static void* ioThreadProc(void* inst)
             switch(id)
             {
                 case 26:
-                    for(int i=0 ; i<3 ; i++){
-                        FT_temp[i]=TransF(data[i*2], data[i*2+1]);
-                        FT[i]=FT_temp[i]-FT_calib[i]/100.;
-                    }
-                    if(calib_switch[0]<100.){
-                        for(int k=0 ; k<3 ; k++){
-                            FT_calib[k]+=FT_temp[k];
-                        }
-                        calib_switch[0]++;
-                    }
-                    // printf(">DATA of Thumb Force : X: %.2f, Y: %.2f, Z: %.2f\n\n", FT[0], FT[1], FT[2]);
+                    GetFTVal(0, data);
                     break;
                 case 27:
-                    for(int i=0 ; i<3 ; i++){
-                        FT_temp[i+3]=TransF(data[i*2], data[i*2+1]);
-                        FT[i+3]=FT_temp[i+3]-FT_calib[i+3]/100.;
-                    }
-                    if(calib_switch[1]<100.){
-                        for(int k=3 ; k<6 ; k++){
-                            FT_calib[k]+=FT_temp[k];
-                        }
-                        calib_switch[1]++;
-                    }
-                    // printf(">DATA of Thumb Torque : X: %.2f, Y: %.2f, Z: %.2f\n\n", FT[3], FT[4], FT[5]);
+                    GetFTVal(1, data);
                     break;
                 case 42:
-                    for(int i=0 ; i<3 ; i++){
-                        FT_temp[i+6]=TransF(data[i*2], data[i*2+1]);
-                        FT[i+6]=FT_temp[i+6]-FT_calib[i+6]/100.;
-                    }
-                    if(calib_switch[2]<100.){
-                        for(int k=6 ; k<9 ; k++){
-                            FT_calib[k]+=FT_temp[k];
-                        }
-                        calib_switch[2]++;
-                    }
-                    // printf(">DATA of Index Force : X: %.2f, Y: %.2f, Z: %.2f\n\n", FT[6], FT[7], FT[8]);
+                    GetFTVal(2, data);
                     break;
                 case 43:
-                    for(int i=0 ; i<3 ; i++){
-                        FT_temp[i+9]=TransF(data[i*2], data[i*2+1]);
-                        FT[i+9]=FT_temp[i+9]-FT_calib[i+9]/100.;
-                    }
-                    if(calib_switch[3]<100.){
-                        for(int k=9 ; k<12 ; k++){
-                            FT_calib[k]+=FT_temp[k];
-                        }
-                        calib_switch[3]++;
-                    }
-                    // printf(">DATA of Index Torque : X: %.2f, Y: %.2f, Z: %.2f\n\n", FT[9], FT[10], FT[11]);
+                    GetFTVal(3, data);
                     break;
                 default:
 
