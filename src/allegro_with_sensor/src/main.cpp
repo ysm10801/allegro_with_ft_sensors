@@ -15,6 +15,7 @@
 #include <BHand/BHand.h>
 #include <ros/ros.h>
 #include <std_msgs/Float64MultiArray.h>
+#include <algorithm> //_sorting for med filter
 
 #define PEAKCAN (1)
 
@@ -78,28 +79,35 @@ const int	HAND_VERSION = 4;
 const double tau_cov_const_v4 = 1200.0; // 1200.0 for SAH040xxxxx
 
 
-// hand calibrations
-float FT_calib[12] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-int calib_switch[4] = {0, 0, 0, 0};
-float FT[12] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-float FT_temp[12] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+class BilinearLPF {
+public:
+    BilinearLPF(double sampleRate, double cutoffFrequency) {
+        this->sampleRate = sampleRate;
+        this->cutoffFrequency = cutoffFrequency;
+        for (int i=0 ; i<12 ; i++){
+            prevInput1[i] = 0.0;
+            prevOutput1[i] = 0.0;
+        }
+    }
+    double* process(const double input[12]) {
+        static double output[12];
 
-
-bool bRun = true;
-int c = 0;
-
-/////////////////////////////////////////////////////////////////////////////////////////
-// functions declarations
-char Getch();
-void PrintInstruction();
-void MainLoop();
-bool OpenCAN();
-void CloseCAN();
-int GetCANChannelIndex(const TCHAR* cname);
-bool CreateBHandAlgorithm();
-void DestroyBHandAlgorithm();
-void ComputeTorque();
-
+        for (int i=0 ; i<12 ; i++){
+            output[i] = (2 - cutoffFrequency / sampleRate) / (2 + cutoffFrequency / sampleRate) * prevOutput1[i]
+                + (cutoffFrequency / sampleRate) / (2 + cutoffFrequency / sampleRate) * (input[i] + prevInput1[i]);
+        }
+        for (int i=0 ; i<12 ; i++){
+            prevInput1[i] = input[i];
+            prevOutput1[i] = output[i];
+        }
+        return output;
+    }
+private:
+    double sampleRate;
+    double cutoffFrequency;
+    double prevInput1[12];
+    double prevOutput1[12];
+};
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Read keyboard input (one char) from stdin
@@ -127,6 +135,32 @@ char Getch()
     printf("%c\n",buf);
     return buf;
 }
+
+// FT Sensor Value /////
+
+double FT_calib[12] = {0};
+int calib_switch[4] = {0};
+double FT[12] = {0};
+double FT_temp[12] = {0};
+
+double FT_filtered[12] = {0};
+
+BilinearLPF FT_lpf = BilinearLPF(1000, 30);
+
+bool bRun = true;
+int c = 0;
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// functions declarations
+char Getch();
+void PrintInstruction();
+void MainLoop();
+bool OpenCAN();
+void CloseCAN();
+int GetCANChannelIndex(const TCHAR* cname);
+bool CreateBHandAlgorithm();
+void DestroyBHandAlgorithm();
+void ComputeTorque();
 
 void joint_config_Callback(const std_msgs::Float64MultiArray::ConstPtr& msg)
 {
@@ -184,16 +218,31 @@ void GetFTVal(int sens_num, unsigned char data[8])
 {
     int s = sens_num*3;
     for(int i=0 ; i<3 ; i++){
-        FT_temp[i+s]=TransF(data[i*2], data[i*2+1]);
-        FT[i+s]=FT_temp[i+s]-FT_calib[i+s]/100.;
+        if (sens_num==0||sens_num==2){
+            FT_temp[i+s]=TransF(data[i*2], data[i*2+1]);
+        }
+        else{
+            FT_temp[i+s]=TransT(data[i*2], data[i*2+1]);
+        }
+        FT[i+s]=FT_temp[i+s]-FT_calib[i+s]/200;
     }
-    if(calib_switch[sens_num]<100.){
-        for(int k = s ; k<s+3 ; k++){
-            FT_calib[k]+=FT_temp[k];
+    if(calib_switch[sens_num]<400){
+        if (calib_switch[sens_num]>=200){
+            for(int k = s ; k<s+3 ; k++){
+                FT_calib[k]+=FT_temp[k];
+            }
         }
         calib_switch[sens_num]++;
     }
+
+    double* filtered_output = FT_lpf.process(FT);
+
+    for (int i=0 ; i<12 ; i++){
+        FT_filtered[i] = filtered_output[i];
+    }
 }
+
+
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // CAN communication thread
@@ -208,9 +257,11 @@ static void* ioThreadProc(void* inst)
     // publisher and subscriber
     ros::NodeHandle nh;
     ros::Publisher ft_pub = nh.advertise<std_msgs::Float64MultiArray>("/ft_sensor_value", 7);
+    ros::Publisher ft_filtered_pub = nh.advertise<std_msgs::Float64MultiArray>("/ft_sensor_filtered_value", 7);
     ros::Publisher allegro_config_pub = nh.advertise<std_msgs::Float64MultiArray>("/allegro_joint_configurations", 7);
     ros::Publisher allegro_torque_pub = nh.advertise<std_msgs::Float64MultiArray>("/allegro_joint_torques", 7);
     std_msgs::Float64MultiArray ft_value_msg;
+    std_msgs::Float64MultiArray ft_filtered_value_msg;
     std_msgs::Float64MultiArray allegro_config_msg;
     std_msgs::Float64MultiArray allegro_torque_msg;
     while (ioThreadRun)
@@ -220,17 +271,19 @@ static void* ioThreadProc(void* inst)
         {
 //////////////////////////FT_sensor_publish///////////////////////
             ft_value_msg.data.clear();
-            // msg.data.size();
-            // for (size_t i = 0; i < msg.data.size(); i++)
-            // {
-            //     // msg.data.at(5);
-            // }
         
             for (size_t i = 0; i < 12; i++)
             {
                 ft_value_msg.data.push_back(FT[i]);
             }
             ft_pub.publish(ft_value_msg);
+            
+            ft_filtered_value_msg.data.clear();
+            for (size_t i = 0; i < 12; i++)
+            {
+                ft_filtered_value_msg.data.push_back(FT_filtered[i]);
+            }
+            ft_filtered_pub.publish(ft_filtered_value_msg);
 //            printf(">CAN(%d): ", CAN_Ch);
 //            for(int nd=0; nd<len; nd++)
 //                printf("%02x ", data[nd]);
@@ -396,15 +449,16 @@ void MainLoop()
     {
         ros::NodeHandle nh_sub;
         ros::Subscriber allegro_config_sub = nh_sub.subscribe("/allegro_joint_desired", 100, joint_config_Callback);
+        ros::Rate rate(1000);
 
-//         c = Getch();
-//         switch (c)
-//         {
-//         case 'q':
-//             if (pBHand) pBHand->SetMotionType(eMotionType_NONE);
-//             bRun = false;
-//             break;
-
+        c = Getch();
+        switch (c)
+        {
+        case 'q':
+            if (pBHand) pBHand->SetMotionType(eMotionType_NONE);
+            bRun = false;
+            break;
+        }
 //         case 'h':
 //             if (pBHand) pBHand->SetMotionType(eMotionType_HOME);
 //             break;
@@ -458,6 +512,7 @@ void MainLoop()
 //             break;
 //         }
         ros::spin();
+        // rate.sleep();
     }
 }
 

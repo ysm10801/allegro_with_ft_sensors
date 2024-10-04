@@ -1,2 +1,2 @@
-allegro_with_sensor:ros_simple_tutorial
--DCATKIN_DEVEL_PREFIX=/home/yang/catkin_ws/devel -DCMAKE_INSTALL_PREFIX=/home/yang/catkin_ws/install -G Unix Makefiles
+allegro_with_sensor
+-DCATKIN_DEVEL_PREFIX=/home/yang/ws/allegro_ws/devel -DCMAKE_INSTALL_PREFIX=/home/yang/ws/allegro_ws/install -G Unix Makefiles

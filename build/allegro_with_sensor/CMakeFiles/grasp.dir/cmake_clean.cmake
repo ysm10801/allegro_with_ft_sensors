@@ -1,6 +1,6 @@
 file(REMOVE_RECURSE
-  "/home/yang/catkin_ws/devel/lib/allegro_with_sensor/grasp"
-  "/home/yang/catkin_ws/devel/lib/allegro_with_sensor/grasp.pdb"
+  "/home/yang/ws/allegro_ws/devel/lib/allegro_with_sensor/grasp"
+  "/home/yang/ws/allegro_ws/devel/lib/allegro_with_sensor/grasp.pdb"
   "CMakeFiles/grasp.dir/src/RockScissorsPaper.cpp.o"
   "CMakeFiles/grasp.dir/src/canAPI.cpp.o"
   "CMakeFiles/grasp.dir/src/main.cpp.o"

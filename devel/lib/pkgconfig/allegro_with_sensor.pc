@@ -1,4 +1,4 @@
-prefix=/home/yang/catkin_ws/devel
+prefix=/home/yang/ws/allegro_ws/devel
 
 Name: allegro_with_sensor
 Description: Description of allegro_with_sensor

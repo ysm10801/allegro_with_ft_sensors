@@ -200,6 +200,10 @@ int canSendMsg(int bus, int id, char len, unsigned char *data, int blocking){
         printf("%s\n", strMsg);
         return Status;
     }
+    printf("CAN bus: %d, ID: %d, LEN: %d, DATA: ", bus, id, len);
+    for(i = 0; i < len; i++)
+        printf("%d ", data[i]);
+    printf("\n");
 
     return 0; //PCAN_ERROR_OK;
 }

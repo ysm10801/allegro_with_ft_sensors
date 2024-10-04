@@ -12,7 +12,10 @@ find_package(catkin REQUIRED COMPONENTS
   rospy
   std_msgs
   genmsg
+  geometry_msgs
 )
+
+find_package(Eigen3 REQUIRED)
 
 ## System dependencies are found with CMake's conventions
 # find_package(Boost REQUIRED COMPONENTS system)
@@ -119,6 +122,7 @@ catkin_package(
 include_directories(
 # include
   ${catkin_INCLUDE_DIRS}
+  ${EIGEN3_INCLUDE_DIRS}
 )
 
 ## Declare a C++ library
@@ -154,11 +158,11 @@ include_directories(
 add_executable (grasp src/main.cpp src/canAPI.cpp src/RockScissorsPaper.cpp)
 target_link_libraries (grasp BHand pcanbasic pthread ${catkin_LIBRARIES})
 
-add_executable (test_can_comm src/test_can_comm.cpp src/canAPI.cpp src/RockScissorsPaper.cpp)
-target_link_libraries (test_can_comm BHand pcanbasic pthread ${catkin_LIBRARIES})
+add_executable (ft_sensing src/main_wristFT.cpp src/canAPI.cpp src/RockScissorsPaper.cpp)
+target_link_libraries (ft_sensing BHand pcanbasic pthread ${catkin_LIBRARIES})
 
 install (TARGETS grasp DESTINATION ${PROJECT_BINARY_DIR}/bin)
-install (TARGETS test_can_comm DESTINATION ${PROJECT_BINARY_DIR}/bin)
+install (TARGETS ft_sensing DESTINATION ${PROJECT_BINARY_DIR}/bin)
 
 #############
 ## Install ##
@@ -169,10 +173,10 @@ install (TARGETS test_can_comm DESTINATION ${PROJECT_BINARY_DIR}/bin)
 
 ## Mark executable scripts (Python etc.) for installation
 ## in contrast to setup.py, you can choose the destination
-catkin_install_python(PROGRAMS
-  # scripts/my_python_script
-  DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
-)
+# catkin_install_python(PROGRAMS
+#   scripts/my_python_script
+#   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
+# )
 
 ## Mark executables for installation
 ## See http://docs.ros.org/melodic/api/catkin/html/howto/format1/building_executables.html

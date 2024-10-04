@@ -43,10 +43,10 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/yang/catkin_ws/src
+CMAKE_SOURCE_DIR = /home/yang/ws/allegro_ws/src
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/yang/catkin_ws/build
+CMAKE_BINARY_DIR = /home/yang/ws/allegro_ws/build
 
 # Utility rule file for std_msgs_generate_messages_eus.
 
@@ -63,10 +63,10 @@ allegro_with_sensor/CMakeFiles/std_msgs_generate_messages_eus.dir/build: std_msg
 .PHONY : allegro_with_sensor/CMakeFiles/std_msgs_generate_messages_eus.dir/build
 
 allegro_with_sensor/CMakeFiles/std_msgs_generate_messages_eus.dir/clean:
-	cd /home/yang/catkin_ws/build/allegro_with_sensor && $(CMAKE_COMMAND) -P CMakeFiles/std_msgs_generate_messages_eus.dir/cmake_clean.cmake
+	cd /home/yang/ws/allegro_ws/build/allegro_with_sensor && $(CMAKE_COMMAND) -P CMakeFiles/std_msgs_generate_messages_eus.dir/cmake_clean.cmake
 .PHONY : allegro_with_sensor/CMakeFiles/std_msgs_generate_messages_eus.dir/clean
 
 allegro_with_sensor/CMakeFiles/std_msgs_generate_messages_eus.dir/depend:
-	cd /home/yang/catkin_ws/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/yang/catkin_ws/src /home/yang/catkin_ws/src/allegro_with_sensor /home/yang/catkin_ws/build /home/yang/catkin_ws/build/allegro_with_sensor /home/yang/catkin_ws/build/allegro_with_sensor/CMakeFiles/std_msgs_generate_messages_eus.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home/yang/ws/allegro_ws/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/yang/ws/allegro_ws/src /home/yang/ws/allegro_ws/src/allegro_with_sensor /home/yang/ws/allegro_ws/build /home/yang/ws/allegro_ws/build/allegro_with_sensor /home/yang/ws/allegro_ws/build/allegro_with_sensor/CMakeFiles/std_msgs_generate_messages_eus.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : allegro_with_sensor/CMakeFiles/std_msgs_generate_messages_eus.dir/depend
 

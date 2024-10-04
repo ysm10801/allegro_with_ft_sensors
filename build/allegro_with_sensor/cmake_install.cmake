@@ -1,8 +1,8 @@
-# Install script for directory: /home/yang/catkin_ws/src/allegro_with_sensor
+# Install script for directory: /home/yang/ws/allegro_ws/src/allegro_with_sensor
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
-  set(CMAKE_INSTALL_PREFIX "/home/yang/catkin_ws/install")
+  set(CMAKE_INSTALL_PREFIX "/home/yang/ws/allegro_ws/install")
 endif()
 string(REGEX REPLACE "/$" "" CMAKE_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}")
 
@@ -38,72 +38,72 @@ if(NOT DEFINED CMAKE_CROSSCOMPILING)
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/pkgconfig" TYPE FILE FILES "/home/yang/catkin_ws/build/allegro_with_sensor/catkin_generated/installspace/allegro_with_sensor.pc")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/pkgconfig" TYPE FILE FILES "/home/yang/ws/allegro_ws/build/allegro_with_sensor/catkin_generated/installspace/allegro_with_sensor.pc")
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
   file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/allegro_with_sensor/cmake" TYPE FILE FILES
-    "/home/yang/catkin_ws/build/allegro_with_sensor/catkin_generated/installspace/allegro_with_sensorConfig.cmake"
-    "/home/yang/catkin_ws/build/allegro_with_sensor/catkin_generated/installspace/allegro_with_sensorConfig-version.cmake"
+    "/home/yang/ws/allegro_ws/build/allegro_with_sensor/catkin_generated/installspace/allegro_with_sensorConfig.cmake"
+    "/home/yang/ws/allegro_ws/build/allegro_with_sensor/catkin_generated/installspace/allegro_with_sensorConfig-version.cmake"
     )
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/allegro_with_sensor" TYPE FILE FILES "/home/yang/catkin_ws/src/allegro_with_sensor/package.xml")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/allegro_with_sensor" TYPE FILE FILES "/home/yang/ws/allegro_ws/src/allegro_with_sensor/package.xml")
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
-  if(EXISTS "$ENV{DESTDIR}/home/yang/catkin_ws/build/allegro_with_sensor/bin/grasp" AND
-     NOT IS_SYMLINK "$ENV{DESTDIR}/home/yang/catkin_ws/build/allegro_with_sensor/bin/grasp")
+  if(EXISTS "$ENV{DESTDIR}/home/yang/ws/allegro_ws/build/allegro_with_sensor/bin/grasp" AND
+     NOT IS_SYMLINK "$ENV{DESTDIR}/home/yang/ws/allegro_ws/build/allegro_with_sensor/bin/grasp")
     file(RPATH_CHECK
-         FILE "$ENV{DESTDIR}/home/yang/catkin_ws/build/allegro_with_sensor/bin/grasp"
+         FILE "$ENV{DESTDIR}/home/yang/ws/allegro_ws/build/allegro_with_sensor/bin/grasp"
          RPATH "")
   endif()
   list(APPEND CMAKE_ABSOLUTE_DESTINATION_FILES
-   "/home/yang/catkin_ws/build/allegro_with_sensor/bin/grasp")
+   "/home/yang/ws/allegro_ws/build/allegro_with_sensor/bin/grasp")
   if(CMAKE_WARN_ON_ABSOLUTE_INSTALL_DESTINATION)
     message(WARNING "ABSOLUTE path INSTALL DESTINATION : ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
   endif()
   if(CMAKE_ERROR_ON_ABSOLUTE_INSTALL_DESTINATION)
     message(FATAL_ERROR "ABSOLUTE path INSTALL DESTINATION forbidden (by caller): ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
   endif()
-file(INSTALL DESTINATION "/home/yang/catkin_ws/build/allegro_with_sensor/bin" TYPE EXECUTABLE FILES "/home/yang/catkin_ws/devel/lib/allegro_with_sensor/grasp")
-  if(EXISTS "$ENV{DESTDIR}/home/yang/catkin_ws/build/allegro_with_sensor/bin/grasp" AND
-     NOT IS_SYMLINK "$ENV{DESTDIR}/home/yang/catkin_ws/build/allegro_with_sensor/bin/grasp")
+file(INSTALL DESTINATION "/home/yang/ws/allegro_ws/build/allegro_with_sensor/bin" TYPE EXECUTABLE FILES "/home/yang/ws/allegro_ws/devel/lib/allegro_with_sensor/grasp")
+  if(EXISTS "$ENV{DESTDIR}/home/yang/ws/allegro_ws/build/allegro_with_sensor/bin/grasp" AND
+     NOT IS_SYMLINK "$ENV{DESTDIR}/home/yang/ws/allegro_ws/build/allegro_with_sensor/bin/grasp")
     file(RPATH_CHANGE
-         FILE "$ENV{DESTDIR}/home/yang/catkin_ws/build/allegro_with_sensor/bin/grasp"
+         FILE "$ENV{DESTDIR}/home/yang/ws/allegro_ws/build/allegro_with_sensor/bin/grasp"
          OLD_RPATH "/opt/ros/noetic/lib:"
          NEW_RPATH "")
     if(CMAKE_INSTALL_DO_STRIP)
-      execute_process(COMMAND "/usr/bin/strip" "$ENV{DESTDIR}/home/yang/catkin_ws/build/allegro_with_sensor/bin/grasp")
+      execute_process(COMMAND "/usr/bin/strip" "$ENV{DESTDIR}/home/yang/ws/allegro_ws/build/allegro_with_sensor/bin/grasp")
     endif()
   endif()
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
-  if(EXISTS "$ENV{DESTDIR}/home/yang/catkin_ws/build/allegro_with_sensor/bin/test_can_comm" AND
-     NOT IS_SYMLINK "$ENV{DESTDIR}/home/yang/catkin_ws/build/allegro_with_sensor/bin/test_can_comm")
+  if(EXISTS "$ENV{DESTDIR}/home/yang/ws/allegro_ws/build/allegro_with_sensor/bin/ft_sensing" AND
+     NOT IS_SYMLINK "$ENV{DESTDIR}/home/yang/ws/allegro_ws/build/allegro_with_sensor/bin/ft_sensing")
     file(RPATH_CHECK
-         FILE "$ENV{DESTDIR}/home/yang/catkin_ws/build/allegro_with_sensor/bin/test_can_comm"
+         FILE "$ENV{DESTDIR}/home/yang/ws/allegro_ws/build/allegro_with_sensor/bin/ft_sensing"
          RPATH "")
   endif()
   list(APPEND CMAKE_ABSOLUTE_DESTINATION_FILES
-   "/home/yang/catkin_ws/build/allegro_with_sensor/bin/test_can_comm")
+   "/home/yang/ws/allegro_ws/build/allegro_with_sensor/bin/ft_sensing")
   if(CMAKE_WARN_ON_ABSOLUTE_INSTALL_DESTINATION)
     message(WARNING "ABSOLUTE path INSTALL DESTINATION : ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
   endif()
   if(CMAKE_ERROR_ON_ABSOLUTE_INSTALL_DESTINATION)
     message(FATAL_ERROR "ABSOLUTE path INSTALL DESTINATION forbidden (by caller): ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
   endif()
-file(INSTALL DESTINATION "/home/yang/catkin_ws/build/allegro_with_sensor/bin" TYPE EXECUTABLE FILES "/home/yang/catkin_ws/devel/lib/allegro_with_sensor/test_can_comm")
-  if(EXISTS "$ENV{DESTDIR}/home/yang/catkin_ws/build/allegro_with_sensor/bin/test_can_comm" AND
-     NOT IS_SYMLINK "$ENV{DESTDIR}/home/yang/catkin_ws/build/allegro_with_sensor/bin/test_can_comm")
+file(INSTALL DESTINATION "/home/yang/ws/allegro_ws/build/allegro_with_sensor/bin" TYPE EXECUTABLE FILES "/home/yang/ws/allegro_ws/devel/lib/allegro_with_sensor/ft_sensing")
+  if(EXISTS "$ENV{DESTDIR}/home/yang/ws/allegro_ws/build/allegro_with_sensor/bin/ft_sensing" AND
+     NOT IS_SYMLINK "$ENV{DESTDIR}/home/yang/ws/allegro_ws/build/allegro_with_sensor/bin/ft_sensing")
     file(RPATH_CHANGE
-         FILE "$ENV{DESTDIR}/home/yang/catkin_ws/build/allegro_with_sensor/bin/test_can_comm"
+         FILE "$ENV{DESTDIR}/home/yang/ws/allegro_ws/build/allegro_with_sensor/bin/ft_sensing"
          OLD_RPATH "/opt/ros/noetic/lib:"
          NEW_RPATH "")
     if(CMAKE_INSTALL_DO_STRIP)
-      execute_process(COMMAND "/usr/bin/strip" "$ENV{DESTDIR}/home/yang/catkin_ws/build/allegro_with_sensor/bin/test_can_comm")
+      execute_process(COMMAND "/usr/bin/strip" "$ENV{DESTDIR}/home/yang/ws/allegro_ws/build/allegro_with_sensor/bin/ft_sensing")
     endif()
   endif()
 endif()

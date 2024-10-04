@@ -4,9 +4,9 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
-  "/home/yang/catkin_ws/src/allegro_with_sensor/src/RockScissorsPaper.cpp" "/home/yang/catkin_ws/build/allegro_with_sensor/CMakeFiles/grasp.dir/src/RockScissorsPaper.cpp.o"
-  "/home/yang/catkin_ws/src/allegro_with_sensor/src/canAPI.cpp" "/home/yang/catkin_ws/build/allegro_with_sensor/CMakeFiles/grasp.dir/src/canAPI.cpp.o"
-  "/home/yang/catkin_ws/src/allegro_with_sensor/src/main.cpp" "/home/yang/catkin_ws/build/allegro_with_sensor/CMakeFiles/grasp.dir/src/main.cpp.o"
+  "/home/yang/ws/allegro_ws/src/allegro_with_sensor/src/RockScissorsPaper.cpp" "/home/yang/ws/allegro_ws/build/allegro_with_sensor/CMakeFiles/grasp.dir/src/RockScissorsPaper.cpp.o"
+  "/home/yang/ws/allegro_ws/src/allegro_with_sensor/src/canAPI.cpp" "/home/yang/ws/allegro_ws/build/allegro_with_sensor/CMakeFiles/grasp.dir/src/canAPI.cpp.o"
+  "/home/yang/ws/allegro_ws/src/allegro_with_sensor/src/main.cpp" "/home/yang/ws/allegro_ws/build/allegro_with_sensor/CMakeFiles/grasp.dir/src/main.cpp.o"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")
 
@@ -21,6 +21,7 @@ set(CMAKE_TARGET_DEFINITIONS_CXX
 set(CMAKE_CXX_TARGET_INCLUDE_PATH
   "/opt/ros/noetic/include"
   "/opt/ros/noetic/share/xmlrpcpp/cmake/../../../include/xmlrpcpp"
+  "/usr/local/include/eigen3"
   )
 
 # Targets to which this target links.

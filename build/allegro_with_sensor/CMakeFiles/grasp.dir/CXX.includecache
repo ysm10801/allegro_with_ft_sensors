@@ -6,15 +6,47 @@
 
 #IncludeRegexTransform: 
 
-/home/yang/catkin_ws/src/allegro_with_sensor/src/RockScissorsPaper.h
+/home/yang/ws/allegro_ws/src/allegro_with_sensor/src/RockScissorsPaper.cpp
+rDeviceAllegroHandCANDef.h
+/home/yang/ws/allegro_ws/src/allegro_with_sensor/src/rDeviceAllegroHandCANDef.h
+BHand/BHand.h
+-
 
-/home/yang/catkin_ws/src/allegro_with_sensor/src/canAPI.h
+/home/yang/ws/allegro_ws/src/allegro_with_sensor/src/RockScissorsPaper.h
+
+/home/yang/ws/allegro_ws/src/allegro_with_sensor/src/canAPI.cpp
+stdio.h
+-
+errno.h
+-
+inttypes.h
+-
+pthread.h
+-
+syslog.h
+-
+unistd.h
+-
+windows.h
+-
+malloc.h
+-
+assert.h
+-
+PCANBasic.h
+-
 canDef.h
-/home/yang/catkin_ws/src/allegro_with_sensor/src/canDef.h
+/home/yang/ws/allegro_ws/src/allegro_with_sensor/src/canDef.h
+canAPI.h
+/home/yang/ws/allegro_ws/src/allegro_with_sensor/src/canAPI.h
 
-/home/yang/catkin_ws/src/allegro_with_sensor/src/canDef.h
+/home/yang/ws/allegro_ws/src/allegro_with_sensor/src/canAPI.h
+canDef.h
+/home/yang/ws/allegro_ws/src/allegro_with_sensor/src/canDef.h
 
-/home/yang/catkin_ws/src/allegro_with_sensor/src/main.cpp
+/home/yang/ws/allegro_ws/src/allegro_with_sensor/src/canDef.h
+
+/home/yang/ws/allegro_ws/src/allegro_with_sensor/src/main.cpp
 stdio.h
 -
 stdint.h
@@ -28,19 +60,21 @@ string.h
 pthread.h
 -
 canAPI.h
-/home/yang/catkin_ws/src/allegro_with_sensor/src/canAPI.h
+/home/yang/ws/allegro_ws/src/allegro_with_sensor/src/canAPI.h
 rDeviceAllegroHandCANDef.h
-/home/yang/catkin_ws/src/allegro_with_sensor/src/rDeviceAllegroHandCANDef.h
+/home/yang/ws/allegro_ws/src/allegro_with_sensor/src/rDeviceAllegroHandCANDef.h
 RockScissorsPaper.h
-/home/yang/catkin_ws/src/allegro_with_sensor/src/RockScissorsPaper.h
+/home/yang/ws/allegro_ws/src/allegro_with_sensor/src/RockScissorsPaper.h
 BHand/BHand.h
 -
 ros/ros.h
 -
 std_msgs/Float64MultiArray.h
 -
+algorithm
+-
 
-/home/yang/catkin_ws/src/allegro_with_sensor/src/rDeviceAllegroHandCANDef.h
+/home/yang/ws/allegro_ws/src/allegro_with_sensor/src/rDeviceAllegroHandCANDef.h
 
 /opt/ros/noetic/include/ros/advertise_options.h
 ros/forwards.h

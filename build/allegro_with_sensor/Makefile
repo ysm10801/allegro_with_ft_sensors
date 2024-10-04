@@ -48,25 +48,13 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/yang/catkin_ws/src
+CMAKE_SOURCE_DIR = /home/yang/ws/allegro_ws/src
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/yang/catkin_ws/build
+CMAKE_BINARY_DIR = /home/yang/ws/allegro_ws/build
 
 #=============================================================================
 # Targets provided globally by CMake.
-
-# Special rule for the target install/local
-install/local: preinstall
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing only the local directory..."
-	/usr/bin/cmake -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake
-.PHONY : install/local
-
-# Special rule for the target install/local
-install/local/fast: preinstall/fast
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing only the local directory..."
-	/usr/bin/cmake -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake
-.PHONY : install/local/fast
 
 # Special rule for the target rebuild_cache
 rebuild_cache:
@@ -100,6 +88,18 @@ test:
 test/fast: test
 
 .PHONY : test/fast
+
+# Special rule for the target install/local
+install/local: preinstall
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing only the local directory..."
+	/usr/bin/cmake -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake
+.PHONY : install/local
+
+# Special rule for the target install/local
+install/local/fast: preinstall/fast
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing only the local directory..."
+	/usr/bin/cmake -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake
+.PHONY : install/local/fast
 
 # Special rule for the target list_install_components
 list_install_components:
@@ -137,14 +137,14 @@ install/strip/fast: preinstall/fast
 
 # The main all target
 all: cmake_check_build_system
-	cd /home/yang/catkin_ws/build && $(CMAKE_COMMAND) -E cmake_progress_start /home/yang/catkin_ws/build/CMakeFiles /home/yang/catkin_ws/build/allegro_with_sensor/CMakeFiles/progress.marks
-	cd /home/yang/catkin_ws/build && $(MAKE) -f CMakeFiles/Makefile2 allegro_with_sensor/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/yang/catkin_ws/build/CMakeFiles 0
+	cd /home/yang/ws/allegro_ws/build && $(CMAKE_COMMAND) -E cmake_progress_start /home/yang/ws/allegro_ws/build/CMakeFiles /home/yang/ws/allegro_ws/build/allegro_with_sensor/CMakeFiles/progress.marks
+	cd /home/yang/ws/allegro_ws/build && $(MAKE) -f CMakeFiles/Makefile2 allegro_with_sensor/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/yang/ws/allegro_ws/build/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
 clean:
-	cd /home/yang/catkin_ws/build && $(MAKE) -f CMakeFiles/Makefile2 allegro_with_sensor/clean
+	cd /home/yang/ws/allegro_ws/build && $(MAKE) -f CMakeFiles/Makefile2 allegro_with_sensor/clean
 .PHONY : clean
 
 # The main clean target
@@ -154,37 +154,37 @@ clean/fast: clean
 
 # Prepare targets for installation.
 preinstall: all
-	cd /home/yang/catkin_ws/build && $(MAKE) -f CMakeFiles/Makefile2 allegro_with_sensor/preinstall
+	cd /home/yang/ws/allegro_ws/build && $(MAKE) -f CMakeFiles/Makefile2 allegro_with_sensor/preinstall
 .PHONY : preinstall
 
 # Prepare targets for installation.
 preinstall/fast:
-	cd /home/yang/catkin_ws/build && $(MAKE) -f CMakeFiles/Makefile2 allegro_with_sensor/preinstall
+	cd /home/yang/ws/allegro_ws/build && $(MAKE) -f CMakeFiles/Makefile2 allegro_with_sensor/preinstall
 .PHONY : preinstall/fast
 
 # clear depends
 depend:
-	cd /home/yang/catkin_ws/build && $(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
+	cd /home/yang/ws/allegro_ws/build && $(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
 .PHONY : depend
 
 # Convenience name for target.
-allegro_with_sensor/CMakeFiles/test_can_comm.dir/rule:
-	cd /home/yang/catkin_ws/build && $(MAKE) -f CMakeFiles/Makefile2 allegro_with_sensor/CMakeFiles/test_can_comm.dir/rule
-.PHONY : allegro_with_sensor/CMakeFiles/test_can_comm.dir/rule
+allegro_with_sensor/CMakeFiles/ft_sensing.dir/rule:
+	cd /home/yang/ws/allegro_ws/build && $(MAKE) -f CMakeFiles/Makefile2 allegro_with_sensor/CMakeFiles/ft_sensing.dir/rule
+.PHONY : allegro_with_sensor/CMakeFiles/ft_sensing.dir/rule
 
 # Convenience name for target.
-test_can_comm: allegro_with_sensor/CMakeFiles/test_can_comm.dir/rule
+ft_sensing: allegro_with_sensor/CMakeFiles/ft_sensing.dir/rule
 
-.PHONY : test_can_comm
+.PHONY : ft_sensing
 
 # fast build rule for target.
-test_can_comm/fast:
-	cd /home/yang/catkin_ws/build && $(MAKE) -f allegro_with_sensor/CMakeFiles/test_can_comm.dir/build.make allegro_with_sensor/CMakeFiles/test_can_comm.dir/build
-.PHONY : test_can_comm/fast
+ft_sensing/fast:
+	cd /home/yang/ws/allegro_ws/build && $(MAKE) -f allegro_with_sensor/CMakeFiles/ft_sensing.dir/build.make allegro_with_sensor/CMakeFiles/ft_sensing.dir/build
+.PHONY : ft_sensing/fast
 
 # Convenience name for target.
 allegro_with_sensor/CMakeFiles/grasp.dir/rule:
-	cd /home/yang/catkin_ws/build && $(MAKE) -f CMakeFiles/Makefile2 allegro_with_sensor/CMakeFiles/grasp.dir/rule
+	cd /home/yang/ws/allegro_ws/build && $(MAKE) -f CMakeFiles/Makefile2 allegro_with_sensor/CMakeFiles/grasp.dir/rule
 .PHONY : allegro_with_sensor/CMakeFiles/grasp.dir/rule
 
 # Convenience name for target.
@@ -194,12 +194,27 @@ grasp: allegro_with_sensor/CMakeFiles/grasp.dir/rule
 
 # fast build rule for target.
 grasp/fast:
-	cd /home/yang/catkin_ws/build && $(MAKE) -f allegro_with_sensor/CMakeFiles/grasp.dir/build.make allegro_with_sensor/CMakeFiles/grasp.dir/build
+	cd /home/yang/ws/allegro_ws/build && $(MAKE) -f allegro_with_sensor/CMakeFiles/grasp.dir/build.make allegro_with_sensor/CMakeFiles/grasp.dir/build
 .PHONY : grasp/fast
 
 # Convenience name for target.
+allegro_with_sensor/CMakeFiles/geometry_msgs_generate_messages_eus.dir/rule:
+	cd /home/yang/ws/allegro_ws/build && $(MAKE) -f CMakeFiles/Makefile2 allegro_with_sensor/CMakeFiles/geometry_msgs_generate_messages_eus.dir/rule
+.PHONY : allegro_with_sensor/CMakeFiles/geometry_msgs_generate_messages_eus.dir/rule
+
+# Convenience name for target.
+geometry_msgs_generate_messages_eus: allegro_with_sensor/CMakeFiles/geometry_msgs_generate_messages_eus.dir/rule
+
+.PHONY : geometry_msgs_generate_messages_eus
+
+# fast build rule for target.
+geometry_msgs_generate_messages_eus/fast:
+	cd /home/yang/ws/allegro_ws/build && $(MAKE) -f allegro_with_sensor/CMakeFiles/geometry_msgs_generate_messages_eus.dir/build.make allegro_with_sensor/CMakeFiles/geometry_msgs_generate_messages_eus.dir/build
+.PHONY : geometry_msgs_generate_messages_eus/fast
+
+# Convenience name for target.
 allegro_with_sensor/CMakeFiles/std_msgs_generate_messages_py.dir/rule:
-	cd /home/yang/catkin_ws/build && $(MAKE) -f CMakeFiles/Makefile2 allegro_with_sensor/CMakeFiles/std_msgs_generate_messages_py.dir/rule
+	cd /home/yang/ws/allegro_ws/build && $(MAKE) -f CMakeFiles/Makefile2 allegro_with_sensor/CMakeFiles/std_msgs_generate_messages_py.dir/rule
 .PHONY : allegro_with_sensor/CMakeFiles/std_msgs_generate_messages_py.dir/rule
 
 # Convenience name for target.
@@ -209,12 +224,12 @@ std_msgs_generate_messages_py: allegro_with_sensor/CMakeFiles/std_msgs_generate_
 
 # fast build rule for target.
 std_msgs_generate_messages_py/fast:
-	cd /home/yang/catkin_ws/build && $(MAKE) -f allegro_with_sensor/CMakeFiles/std_msgs_generate_messages_py.dir/build.make allegro_with_sensor/CMakeFiles/std_msgs_generate_messages_py.dir/build
+	cd /home/yang/ws/allegro_ws/build && $(MAKE) -f allegro_with_sensor/CMakeFiles/std_msgs_generate_messages_py.dir/build.make allegro_with_sensor/CMakeFiles/std_msgs_generate_messages_py.dir/build
 .PHONY : std_msgs_generate_messages_py/fast
 
 # Convenience name for target.
 allegro_with_sensor/CMakeFiles/std_msgs_generate_messages_nodejs.dir/rule:
-	cd /home/yang/catkin_ws/build && $(MAKE) -f CMakeFiles/Makefile2 allegro_with_sensor/CMakeFiles/std_msgs_generate_messages_nodejs.dir/rule
+	cd /home/yang/ws/allegro_ws/build && $(MAKE) -f CMakeFiles/Makefile2 allegro_with_sensor/CMakeFiles/std_msgs_generate_messages_nodejs.dir/rule
 .PHONY : allegro_with_sensor/CMakeFiles/std_msgs_generate_messages_nodejs.dir/rule
 
 # Convenience name for target.
@@ -224,12 +239,27 @@ std_msgs_generate_messages_nodejs: allegro_with_sensor/CMakeFiles/std_msgs_gener
 
 # fast build rule for target.
 std_msgs_generate_messages_nodejs/fast:
-	cd /home/yang/catkin_ws/build && $(MAKE) -f allegro_with_sensor/CMakeFiles/std_msgs_generate_messages_nodejs.dir/build.make allegro_with_sensor/CMakeFiles/std_msgs_generate_messages_nodejs.dir/build
+	cd /home/yang/ws/allegro_ws/build && $(MAKE) -f allegro_with_sensor/CMakeFiles/std_msgs_generate_messages_nodejs.dir/build.make allegro_with_sensor/CMakeFiles/std_msgs_generate_messages_nodejs.dir/build
 .PHONY : std_msgs_generate_messages_nodejs/fast
 
 # Convenience name for target.
+allegro_with_sensor/CMakeFiles/geometry_msgs_generate_messages_py.dir/rule:
+	cd /home/yang/ws/allegro_ws/build && $(MAKE) -f CMakeFiles/Makefile2 allegro_with_sensor/CMakeFiles/geometry_msgs_generate_messages_py.dir/rule
+.PHONY : allegro_with_sensor/CMakeFiles/geometry_msgs_generate_messages_py.dir/rule
+
+# Convenience name for target.
+geometry_msgs_generate_messages_py: allegro_with_sensor/CMakeFiles/geometry_msgs_generate_messages_py.dir/rule
+
+.PHONY : geometry_msgs_generate_messages_py
+
+# fast build rule for target.
+geometry_msgs_generate_messages_py/fast:
+	cd /home/yang/ws/allegro_ws/build && $(MAKE) -f allegro_with_sensor/CMakeFiles/geometry_msgs_generate_messages_py.dir/build.make allegro_with_sensor/CMakeFiles/geometry_msgs_generate_messages_py.dir/build
+.PHONY : geometry_msgs_generate_messages_py/fast
+
+# Convenience name for target.
 allegro_with_sensor/CMakeFiles/roscpp_generate_messages_cpp.dir/rule:
-	cd /home/yang/catkin_ws/build && $(MAKE) -f CMakeFiles/Makefile2 allegro_with_sensor/CMakeFiles/roscpp_generate_messages_cpp.dir/rule
+	cd /home/yang/ws/allegro_ws/build && $(MAKE) -f CMakeFiles/Makefile2 allegro_with_sensor/CMakeFiles/roscpp_generate_messages_cpp.dir/rule
 .PHONY : allegro_with_sensor/CMakeFiles/roscpp_generate_messages_cpp.dir/rule
 
 # Convenience name for target.
@@ -239,12 +269,12 @@ roscpp_generate_messages_cpp: allegro_with_sensor/CMakeFiles/roscpp_generate_mes
 
 # fast build rule for target.
 roscpp_generate_messages_cpp/fast:
-	cd /home/yang/catkin_ws/build && $(MAKE) -f allegro_with_sensor/CMakeFiles/roscpp_generate_messages_cpp.dir/build.make allegro_with_sensor/CMakeFiles/roscpp_generate_messages_cpp.dir/build
+	cd /home/yang/ws/allegro_ws/build && $(MAKE) -f allegro_with_sensor/CMakeFiles/roscpp_generate_messages_cpp.dir/build.make allegro_with_sensor/CMakeFiles/roscpp_generate_messages_cpp.dir/build
 .PHONY : roscpp_generate_messages_cpp/fast
 
 # Convenience name for target.
 allegro_with_sensor/CMakeFiles/roscpp_generate_messages_eus.dir/rule:
-	cd /home/yang/catkin_ws/build && $(MAKE) -f CMakeFiles/Makefile2 allegro_with_sensor/CMakeFiles/roscpp_generate_messages_eus.dir/rule
+	cd /home/yang/ws/allegro_ws/build && $(MAKE) -f CMakeFiles/Makefile2 allegro_with_sensor/CMakeFiles/roscpp_generate_messages_eus.dir/rule
 .PHONY : allegro_with_sensor/CMakeFiles/roscpp_generate_messages_eus.dir/rule
 
 # Convenience name for target.
@@ -254,12 +284,12 @@ roscpp_generate_messages_eus: allegro_with_sensor/CMakeFiles/roscpp_generate_mes
 
 # fast build rule for target.
 roscpp_generate_messages_eus/fast:
-	cd /home/yang/catkin_ws/build && $(MAKE) -f allegro_with_sensor/CMakeFiles/roscpp_generate_messages_eus.dir/build.make allegro_with_sensor/CMakeFiles/roscpp_generate_messages_eus.dir/build
+	cd /home/yang/ws/allegro_ws/build && $(MAKE) -f allegro_with_sensor/CMakeFiles/roscpp_generate_messages_eus.dir/build.make allegro_with_sensor/CMakeFiles/roscpp_generate_messages_eus.dir/build
 .PHONY : roscpp_generate_messages_eus/fast
 
 # Convenience name for target.
 allegro_with_sensor/CMakeFiles/rosgraph_msgs_generate_messages_nodejs.dir/rule:
-	cd /home/yang/catkin_ws/build && $(MAKE) -f CMakeFiles/Makefile2 allegro_with_sensor/CMakeFiles/rosgraph_msgs_generate_messages_nodejs.dir/rule
+	cd /home/yang/ws/allegro_ws/build && $(MAKE) -f CMakeFiles/Makefile2 allegro_with_sensor/CMakeFiles/rosgraph_msgs_generate_messages_nodejs.dir/rule
 .PHONY : allegro_with_sensor/CMakeFiles/rosgraph_msgs_generate_messages_nodejs.dir/rule
 
 # Convenience name for target.
@@ -269,12 +299,12 @@ rosgraph_msgs_generate_messages_nodejs: allegro_with_sensor/CMakeFiles/rosgraph_
 
 # fast build rule for target.
 rosgraph_msgs_generate_messages_nodejs/fast:
-	cd /home/yang/catkin_ws/build && $(MAKE) -f allegro_with_sensor/CMakeFiles/rosgraph_msgs_generate_messages_nodejs.dir/build.make allegro_with_sensor/CMakeFiles/rosgraph_msgs_generate_messages_nodejs.dir/build
+	cd /home/yang/ws/allegro_ws/build && $(MAKE) -f allegro_with_sensor/CMakeFiles/rosgraph_msgs_generate_messages_nodejs.dir/build.make allegro_with_sensor/CMakeFiles/rosgraph_msgs_generate_messages_nodejs.dir/build
 .PHONY : rosgraph_msgs_generate_messages_nodejs/fast
 
 # Convenience name for target.
 allegro_with_sensor/CMakeFiles/std_msgs_generate_messages_lisp.dir/rule:
-	cd /home/yang/catkin_ws/build && $(MAKE) -f CMakeFiles/Makefile2 allegro_with_sensor/CMakeFiles/std_msgs_generate_messages_lisp.dir/rule
+	cd /home/yang/ws/allegro_ws/build && $(MAKE) -f CMakeFiles/Makefile2 allegro_with_sensor/CMakeFiles/std_msgs_generate_messages_lisp.dir/rule
 .PHONY : allegro_with_sensor/CMakeFiles/std_msgs_generate_messages_lisp.dir/rule
 
 # Convenience name for target.
@@ -284,12 +314,12 @@ std_msgs_generate_messages_lisp: allegro_with_sensor/CMakeFiles/std_msgs_generat
 
 # fast build rule for target.
 std_msgs_generate_messages_lisp/fast:
-	cd /home/yang/catkin_ws/build && $(MAKE) -f allegro_with_sensor/CMakeFiles/std_msgs_generate_messages_lisp.dir/build.make allegro_with_sensor/CMakeFiles/std_msgs_generate_messages_lisp.dir/build
+	cd /home/yang/ws/allegro_ws/build && $(MAKE) -f allegro_with_sensor/CMakeFiles/std_msgs_generate_messages_lisp.dir/build.make allegro_with_sensor/CMakeFiles/std_msgs_generate_messages_lisp.dir/build
 .PHONY : std_msgs_generate_messages_lisp/fast
 
 # Convenience name for target.
 allegro_with_sensor/CMakeFiles/roscpp_generate_messages_py.dir/rule:
-	cd /home/yang/catkin_ws/build && $(MAKE) -f CMakeFiles/Makefile2 allegro_with_sensor/CMakeFiles/roscpp_generate_messages_py.dir/rule
+	cd /home/yang/ws/allegro_ws/build && $(MAKE) -f CMakeFiles/Makefile2 allegro_with_sensor/CMakeFiles/roscpp_generate_messages_py.dir/rule
 .PHONY : allegro_with_sensor/CMakeFiles/roscpp_generate_messages_py.dir/rule
 
 # Convenience name for target.
@@ -299,12 +329,27 @@ roscpp_generate_messages_py: allegro_with_sensor/CMakeFiles/roscpp_generate_mess
 
 # fast build rule for target.
 roscpp_generate_messages_py/fast:
-	cd /home/yang/catkin_ws/build && $(MAKE) -f allegro_with_sensor/CMakeFiles/roscpp_generate_messages_py.dir/build.make allegro_with_sensor/CMakeFiles/roscpp_generate_messages_py.dir/build
+	cd /home/yang/ws/allegro_ws/build && $(MAKE) -f allegro_with_sensor/CMakeFiles/roscpp_generate_messages_py.dir/build.make allegro_with_sensor/CMakeFiles/roscpp_generate_messages_py.dir/build
 .PHONY : roscpp_generate_messages_py/fast
 
 # Convenience name for target.
+allegro_with_sensor/CMakeFiles/geometry_msgs_generate_messages_lisp.dir/rule:
+	cd /home/yang/ws/allegro_ws/build && $(MAKE) -f CMakeFiles/Makefile2 allegro_with_sensor/CMakeFiles/geometry_msgs_generate_messages_lisp.dir/rule
+.PHONY : allegro_with_sensor/CMakeFiles/geometry_msgs_generate_messages_lisp.dir/rule
+
+# Convenience name for target.
+geometry_msgs_generate_messages_lisp: allegro_with_sensor/CMakeFiles/geometry_msgs_generate_messages_lisp.dir/rule
+
+.PHONY : geometry_msgs_generate_messages_lisp
+
+# fast build rule for target.
+geometry_msgs_generate_messages_lisp/fast:
+	cd /home/yang/ws/allegro_ws/build && $(MAKE) -f allegro_with_sensor/CMakeFiles/geometry_msgs_generate_messages_lisp.dir/build.make allegro_with_sensor/CMakeFiles/geometry_msgs_generate_messages_lisp.dir/build
+.PHONY : geometry_msgs_generate_messages_lisp/fast
+
+# Convenience name for target.
 allegro_with_sensor/CMakeFiles/std_msgs_generate_messages_eus.dir/rule:
-	cd /home/yang/catkin_ws/build && $(MAKE) -f CMakeFiles/Makefile2 allegro_with_sensor/CMakeFiles/std_msgs_generate_messages_eus.dir/rule
+	cd /home/yang/ws/allegro_ws/build && $(MAKE) -f CMakeFiles/Makefile2 allegro_with_sensor/CMakeFiles/std_msgs_generate_messages_eus.dir/rule
 .PHONY : allegro_with_sensor/CMakeFiles/std_msgs_generate_messages_eus.dir/rule
 
 # Convenience name for target.
@@ -314,12 +359,12 @@ std_msgs_generate_messages_eus: allegro_with_sensor/CMakeFiles/std_msgs_generate
 
 # fast build rule for target.
 std_msgs_generate_messages_eus/fast:
-	cd /home/yang/catkin_ws/build && $(MAKE) -f allegro_with_sensor/CMakeFiles/std_msgs_generate_messages_eus.dir/build.make allegro_with_sensor/CMakeFiles/std_msgs_generate_messages_eus.dir/build
+	cd /home/yang/ws/allegro_ws/build && $(MAKE) -f allegro_with_sensor/CMakeFiles/std_msgs_generate_messages_eus.dir/build.make allegro_with_sensor/CMakeFiles/std_msgs_generate_messages_eus.dir/build
 .PHONY : std_msgs_generate_messages_eus/fast
 
 # Convenience name for target.
 allegro_with_sensor/CMakeFiles/roscpp_generate_messages_nodejs.dir/rule:
-	cd /home/yang/catkin_ws/build && $(MAKE) -f CMakeFiles/Makefile2 allegro_with_sensor/CMakeFiles/roscpp_generate_messages_nodejs.dir/rule
+	cd /home/yang/ws/allegro_ws/build && $(MAKE) -f CMakeFiles/Makefile2 allegro_with_sensor/CMakeFiles/roscpp_generate_messages_nodejs.dir/rule
 .PHONY : allegro_with_sensor/CMakeFiles/roscpp_generate_messages_nodejs.dir/rule
 
 # Convenience name for target.
@@ -329,12 +374,12 @@ roscpp_generate_messages_nodejs: allegro_with_sensor/CMakeFiles/roscpp_generate_
 
 # fast build rule for target.
 roscpp_generate_messages_nodejs/fast:
-	cd /home/yang/catkin_ws/build && $(MAKE) -f allegro_with_sensor/CMakeFiles/roscpp_generate_messages_nodejs.dir/build.make allegro_with_sensor/CMakeFiles/roscpp_generate_messages_nodejs.dir/build
+	cd /home/yang/ws/allegro_ws/build && $(MAKE) -f allegro_with_sensor/CMakeFiles/roscpp_generate_messages_nodejs.dir/build.make allegro_with_sensor/CMakeFiles/roscpp_generate_messages_nodejs.dir/build
 .PHONY : roscpp_generate_messages_nodejs/fast
 
 # Convenience name for target.
 allegro_with_sensor/CMakeFiles/rosgraph_msgs_generate_messages_cpp.dir/rule:
-	cd /home/yang/catkin_ws/build && $(MAKE) -f CMakeFiles/Makefile2 allegro_with_sensor/CMakeFiles/rosgraph_msgs_generate_messages_cpp.dir/rule
+	cd /home/yang/ws/allegro_ws/build && $(MAKE) -f CMakeFiles/Makefile2 allegro_with_sensor/CMakeFiles/rosgraph_msgs_generate_messages_cpp.dir/rule
 .PHONY : allegro_with_sensor/CMakeFiles/rosgraph_msgs_generate_messages_cpp.dir/rule
 
 # Convenience name for target.
@@ -344,12 +389,12 @@ rosgraph_msgs_generate_messages_cpp: allegro_with_sensor/CMakeFiles/rosgraph_msg
 
 # fast build rule for target.
 rosgraph_msgs_generate_messages_cpp/fast:
-	cd /home/yang/catkin_ws/build && $(MAKE) -f allegro_with_sensor/CMakeFiles/rosgraph_msgs_generate_messages_cpp.dir/build.make allegro_with_sensor/CMakeFiles/rosgraph_msgs_generate_messages_cpp.dir/build
+	cd /home/yang/ws/allegro_ws/build && $(MAKE) -f allegro_with_sensor/CMakeFiles/rosgraph_msgs_generate_messages_cpp.dir/build.make allegro_with_sensor/CMakeFiles/rosgraph_msgs_generate_messages_cpp.dir/build
 .PHONY : rosgraph_msgs_generate_messages_cpp/fast
 
 # Convenience name for target.
 allegro_with_sensor/CMakeFiles/std_msgs_generate_messages_cpp.dir/rule:
-	cd /home/yang/catkin_ws/build && $(MAKE) -f CMakeFiles/Makefile2 allegro_with_sensor/CMakeFiles/std_msgs_generate_messages_cpp.dir/rule
+	cd /home/yang/ws/allegro_ws/build && $(MAKE) -f CMakeFiles/Makefile2 allegro_with_sensor/CMakeFiles/std_msgs_generate_messages_cpp.dir/rule
 .PHONY : allegro_with_sensor/CMakeFiles/std_msgs_generate_messages_cpp.dir/rule
 
 # Convenience name for target.
@@ -359,12 +404,12 @@ std_msgs_generate_messages_cpp: allegro_with_sensor/CMakeFiles/std_msgs_generate
 
 # fast build rule for target.
 std_msgs_generate_messages_cpp/fast:
-	cd /home/yang/catkin_ws/build && $(MAKE) -f allegro_with_sensor/CMakeFiles/std_msgs_generate_messages_cpp.dir/build.make allegro_with_sensor/CMakeFiles/std_msgs_generate_messages_cpp.dir/build
+	cd /home/yang/ws/allegro_ws/build && $(MAKE) -f allegro_with_sensor/CMakeFiles/std_msgs_generate_messages_cpp.dir/build.make allegro_with_sensor/CMakeFiles/std_msgs_generate_messages_cpp.dir/build
 .PHONY : std_msgs_generate_messages_cpp/fast
 
 # Convenience name for target.
 allegro_with_sensor/CMakeFiles/rosgraph_msgs_generate_messages_eus.dir/rule:
-	cd /home/yang/catkin_ws/build && $(MAKE) -f CMakeFiles/Makefile2 allegro_with_sensor/CMakeFiles/rosgraph_msgs_generate_messages_eus.dir/rule
+	cd /home/yang/ws/allegro_ws/build && $(MAKE) -f CMakeFiles/Makefile2 allegro_with_sensor/CMakeFiles/rosgraph_msgs_generate_messages_eus.dir/rule
 .PHONY : allegro_with_sensor/CMakeFiles/rosgraph_msgs_generate_messages_eus.dir/rule
 
 # Convenience name for target.
@@ -374,12 +419,12 @@ rosgraph_msgs_generate_messages_eus: allegro_with_sensor/CMakeFiles/rosgraph_msg
 
 # fast build rule for target.
 rosgraph_msgs_generate_messages_eus/fast:
-	cd /home/yang/catkin_ws/build && $(MAKE) -f allegro_with_sensor/CMakeFiles/rosgraph_msgs_generate_messages_eus.dir/build.make allegro_with_sensor/CMakeFiles/rosgraph_msgs_generate_messages_eus.dir/build
+	cd /home/yang/ws/allegro_ws/build && $(MAKE) -f allegro_with_sensor/CMakeFiles/rosgraph_msgs_generate_messages_eus.dir/build.make allegro_with_sensor/CMakeFiles/rosgraph_msgs_generate_messages_eus.dir/build
 .PHONY : rosgraph_msgs_generate_messages_eus/fast
 
 # Convenience name for target.
 allegro_with_sensor/CMakeFiles/rosgraph_msgs_generate_messages_lisp.dir/rule:
-	cd /home/yang/catkin_ws/build && $(MAKE) -f CMakeFiles/Makefile2 allegro_with_sensor/CMakeFiles/rosgraph_msgs_generate_messages_lisp.dir/rule
+	cd /home/yang/ws/allegro_ws/build && $(MAKE) -f CMakeFiles/Makefile2 allegro_with_sensor/CMakeFiles/rosgraph_msgs_generate_messages_lisp.dir/rule
 .PHONY : allegro_with_sensor/CMakeFiles/rosgraph_msgs_generate_messages_lisp.dir/rule
 
 # Convenience name for target.
@@ -389,12 +434,42 @@ rosgraph_msgs_generate_messages_lisp: allegro_with_sensor/CMakeFiles/rosgraph_ms
 
 # fast build rule for target.
 rosgraph_msgs_generate_messages_lisp/fast:
-	cd /home/yang/catkin_ws/build && $(MAKE) -f allegro_with_sensor/CMakeFiles/rosgraph_msgs_generate_messages_lisp.dir/build.make allegro_with_sensor/CMakeFiles/rosgraph_msgs_generate_messages_lisp.dir/build
+	cd /home/yang/ws/allegro_ws/build && $(MAKE) -f allegro_with_sensor/CMakeFiles/rosgraph_msgs_generate_messages_lisp.dir/build.make allegro_with_sensor/CMakeFiles/rosgraph_msgs_generate_messages_lisp.dir/build
 .PHONY : rosgraph_msgs_generate_messages_lisp/fast
 
 # Convenience name for target.
+allegro_with_sensor/CMakeFiles/geometry_msgs_generate_messages_nodejs.dir/rule:
+	cd /home/yang/ws/allegro_ws/build && $(MAKE) -f CMakeFiles/Makefile2 allegro_with_sensor/CMakeFiles/geometry_msgs_generate_messages_nodejs.dir/rule
+.PHONY : allegro_with_sensor/CMakeFiles/geometry_msgs_generate_messages_nodejs.dir/rule
+
+# Convenience name for target.
+geometry_msgs_generate_messages_nodejs: allegro_with_sensor/CMakeFiles/geometry_msgs_generate_messages_nodejs.dir/rule
+
+.PHONY : geometry_msgs_generate_messages_nodejs
+
+# fast build rule for target.
+geometry_msgs_generate_messages_nodejs/fast:
+	cd /home/yang/ws/allegro_ws/build && $(MAKE) -f allegro_with_sensor/CMakeFiles/geometry_msgs_generate_messages_nodejs.dir/build.make allegro_with_sensor/CMakeFiles/geometry_msgs_generate_messages_nodejs.dir/build
+.PHONY : geometry_msgs_generate_messages_nodejs/fast
+
+# Convenience name for target.
+allegro_with_sensor/CMakeFiles/geometry_msgs_generate_messages_cpp.dir/rule:
+	cd /home/yang/ws/allegro_ws/build && $(MAKE) -f CMakeFiles/Makefile2 allegro_with_sensor/CMakeFiles/geometry_msgs_generate_messages_cpp.dir/rule
+.PHONY : allegro_with_sensor/CMakeFiles/geometry_msgs_generate_messages_cpp.dir/rule
+
+# Convenience name for target.
+geometry_msgs_generate_messages_cpp: allegro_with_sensor/CMakeFiles/geometry_msgs_generate_messages_cpp.dir/rule
+
+.PHONY : geometry_msgs_generate_messages_cpp
+
+# fast build rule for target.
+geometry_msgs_generate_messages_cpp/fast:
+	cd /home/yang/ws/allegro_ws/build && $(MAKE) -f allegro_with_sensor/CMakeFiles/geometry_msgs_generate_messages_cpp.dir/build.make allegro_with_sensor/CMakeFiles/geometry_msgs_generate_messages_cpp.dir/build
+.PHONY : geometry_msgs_generate_messages_cpp/fast
+
+# Convenience name for target.
 allegro_with_sensor/CMakeFiles/roscpp_generate_messages_lisp.dir/rule:
-	cd /home/yang/catkin_ws/build && $(MAKE) -f CMakeFiles/Makefile2 allegro_with_sensor/CMakeFiles/roscpp_generate_messages_lisp.dir/rule
+	cd /home/yang/ws/allegro_ws/build && $(MAKE) -f CMakeFiles/Makefile2 allegro_with_sensor/CMakeFiles/roscpp_generate_messages_lisp.dir/rule
 .PHONY : allegro_with_sensor/CMakeFiles/roscpp_generate_messages_lisp.dir/rule
 
 # Convenience name for target.
@@ -404,12 +479,12 @@ roscpp_generate_messages_lisp: allegro_with_sensor/CMakeFiles/roscpp_generate_me
 
 # fast build rule for target.
 roscpp_generate_messages_lisp/fast:
-	cd /home/yang/catkin_ws/build && $(MAKE) -f allegro_with_sensor/CMakeFiles/roscpp_generate_messages_lisp.dir/build.make allegro_with_sensor/CMakeFiles/roscpp_generate_messages_lisp.dir/build
+	cd /home/yang/ws/allegro_ws/build && $(MAKE) -f allegro_with_sensor/CMakeFiles/roscpp_generate_messages_lisp.dir/build.make allegro_with_sensor/CMakeFiles/roscpp_generate_messages_lisp.dir/build
 .PHONY : roscpp_generate_messages_lisp/fast
 
 # Convenience name for target.
 allegro_with_sensor/CMakeFiles/rosgraph_msgs_generate_messages_py.dir/rule:
-	cd /home/yang/catkin_ws/build && $(MAKE) -f CMakeFiles/Makefile2 allegro_with_sensor/CMakeFiles/rosgraph_msgs_generate_messages_py.dir/rule
+	cd /home/yang/ws/allegro_ws/build && $(MAKE) -f CMakeFiles/Makefile2 allegro_with_sensor/CMakeFiles/rosgraph_msgs_generate_messages_py.dir/rule
 .PHONY : allegro_with_sensor/CMakeFiles/rosgraph_msgs_generate_messages_py.dir/rule
 
 # Convenience name for target.
@@ -419,7 +494,7 @@ rosgraph_msgs_generate_messages_py: allegro_with_sensor/CMakeFiles/rosgraph_msgs
 
 # fast build rule for target.
 rosgraph_msgs_generate_messages_py/fast:
-	cd /home/yang/catkin_ws/build && $(MAKE) -f allegro_with_sensor/CMakeFiles/rosgraph_msgs_generate_messages_py.dir/build.make allegro_with_sensor/CMakeFiles/rosgraph_msgs_generate_messages_py.dir/build
+	cd /home/yang/ws/allegro_ws/build && $(MAKE) -f allegro_with_sensor/CMakeFiles/rosgraph_msgs_generate_messages_py.dir/build.make allegro_with_sensor/CMakeFiles/rosgraph_msgs_generate_messages_py.dir/build
 .PHONY : rosgraph_msgs_generate_messages_py/fast
 
 src/RockScissorsPaper.o: src/RockScissorsPaper.cpp.o
@@ -428,8 +503,8 @@ src/RockScissorsPaper.o: src/RockScissorsPaper.cpp.o
 
 # target to build an object file
 src/RockScissorsPaper.cpp.o:
-	cd /home/yang/catkin_ws/build && $(MAKE) -f allegro_with_sensor/CMakeFiles/test_can_comm.dir/build.make allegro_with_sensor/CMakeFiles/test_can_comm.dir/src/RockScissorsPaper.cpp.o
-	cd /home/yang/catkin_ws/build && $(MAKE) -f allegro_with_sensor/CMakeFiles/grasp.dir/build.make allegro_with_sensor/CMakeFiles/grasp.dir/src/RockScissorsPaper.cpp.o
+	cd /home/yang/ws/allegro_ws/build && $(MAKE) -f allegro_with_sensor/CMakeFiles/ft_sensing.dir/build.make allegro_with_sensor/CMakeFiles/ft_sensing.dir/src/RockScissorsPaper.cpp.o
+	cd /home/yang/ws/allegro_ws/build && $(MAKE) -f allegro_with_sensor/CMakeFiles/grasp.dir/build.make allegro_with_sensor/CMakeFiles/grasp.dir/src/RockScissorsPaper.cpp.o
 .PHONY : src/RockScissorsPaper.cpp.o
 
 src/RockScissorsPaper.i: src/RockScissorsPaper.cpp.i
@@ -438,8 +513,8 @@ src/RockScissorsPaper.i: src/RockScissorsPaper.cpp.i
 
 # target to preprocess a source file
 src/RockScissorsPaper.cpp.i:
-	cd /home/yang/catkin_ws/build && $(MAKE) -f allegro_with_sensor/CMakeFiles/test_can_comm.dir/build.make allegro_with_sensor/CMakeFiles/test_can_comm.dir/src/RockScissorsPaper.cpp.i
-	cd /home/yang/catkin_ws/build && $(MAKE) -f allegro_with_sensor/CMakeFiles/grasp.dir/build.make allegro_with_sensor/CMakeFiles/grasp.dir/src/RockScissorsPaper.cpp.i
+	cd /home/yang/ws/allegro_ws/build && $(MAKE) -f allegro_with_sensor/CMakeFiles/ft_sensing.dir/build.make allegro_with_sensor/CMakeFiles/ft_sensing.dir/src/RockScissorsPaper.cpp.i
+	cd /home/yang/ws/allegro_ws/build && $(MAKE) -f allegro_with_sensor/CMakeFiles/grasp.dir/build.make allegro_with_sensor/CMakeFiles/grasp.dir/src/RockScissorsPaper.cpp.i
 .PHONY : src/RockScissorsPaper.cpp.i
 
 src/RockScissorsPaper.s: src/RockScissorsPaper.cpp.s
@@ -448,8 +523,8 @@ src/RockScissorsPaper.s: src/RockScissorsPaper.cpp.s
 
 # target to generate assembly for a file
 src/RockScissorsPaper.cpp.s:
-	cd /home/yang/catkin_ws/build && $(MAKE) -f allegro_with_sensor/CMakeFiles/test_can_comm.dir/build.make allegro_with_sensor/CMakeFiles/test_can_comm.dir/src/RockScissorsPaper.cpp.s
-	cd /home/yang/catkin_ws/build && $(MAKE) -f allegro_with_sensor/CMakeFiles/grasp.dir/build.make allegro_with_sensor/CMakeFiles/grasp.dir/src/RockScissorsPaper.cpp.s
+	cd /home/yang/ws/allegro_ws/build && $(MAKE) -f allegro_with_sensor/CMakeFiles/ft_sensing.dir/build.make allegro_with_sensor/CMakeFiles/ft_sensing.dir/src/RockScissorsPaper.cpp.s
+	cd /home/yang/ws/allegro_ws/build && $(MAKE) -f allegro_with_sensor/CMakeFiles/grasp.dir/build.make allegro_with_sensor/CMakeFiles/grasp.dir/src/RockScissorsPaper.cpp.s
 .PHONY : src/RockScissorsPaper.cpp.s
 
 src/canAPI.o: src/canAPI.cpp.o
@@ -458,8 +533,8 @@ src/canAPI.o: src/canAPI.cpp.o
 
 # target to build an object file
 src/canAPI.cpp.o:
-	cd /home/yang/catkin_ws/build && $(MAKE) -f allegro_with_sensor/CMakeFiles/test_can_comm.dir/build.make allegro_with_sensor/CMakeFiles/test_can_comm.dir/src/canAPI.cpp.o
-	cd /home/yang/catkin_ws/build && $(MAKE) -f allegro_with_sensor/CMakeFiles/grasp.dir/build.make allegro_with_sensor/CMakeFiles/grasp.dir/src/canAPI.cpp.o
+	cd /home/yang/ws/allegro_ws/build && $(MAKE) -f allegro_with_sensor/CMakeFiles/ft_sensing.dir/build.make allegro_with_sensor/CMakeFiles/ft_sensing.dir/src/canAPI.cpp.o
+	cd /home/yang/ws/allegro_ws/build && $(MAKE) -f allegro_with_sensor/CMakeFiles/grasp.dir/build.make allegro_with_sensor/CMakeFiles/grasp.dir/src/canAPI.cpp.o
 .PHONY : src/canAPI.cpp.o
 
 src/canAPI.i: src/canAPI.cpp.i
@@ -468,8 +543,8 @@ src/canAPI.i: src/canAPI.cpp.i
 
 # target to preprocess a source file
 src/canAPI.cpp.i:
-	cd /home/yang/catkin_ws/build && $(MAKE) -f allegro_with_sensor/CMakeFiles/test_can_comm.dir/build.make allegro_with_sensor/CMakeFiles/test_can_comm.dir/src/canAPI.cpp.i
-	cd /home/yang/catkin_ws/build && $(MAKE) -f allegro_with_sensor/CMakeFiles/grasp.dir/build.make allegro_with_sensor/CMakeFiles/grasp.dir/src/canAPI.cpp.i
+	cd /home/yang/ws/allegro_ws/build && $(MAKE) -f allegro_with_sensor/CMakeFiles/ft_sensing.dir/build.make allegro_with_sensor/CMakeFiles/ft_sensing.dir/src/canAPI.cpp.i
+	cd /home/yang/ws/allegro_ws/build && $(MAKE) -f allegro_with_sensor/CMakeFiles/grasp.dir/build.make allegro_with_sensor/CMakeFiles/grasp.dir/src/canAPI.cpp.i
 .PHONY : src/canAPI.cpp.i
 
 src/canAPI.s: src/canAPI.cpp.s
@@ -478,8 +553,8 @@ src/canAPI.s: src/canAPI.cpp.s
 
 # target to generate assembly for a file
 src/canAPI.cpp.s:
-	cd /home/yang/catkin_ws/build && $(MAKE) -f allegro_with_sensor/CMakeFiles/test_can_comm.dir/build.make allegro_with_sensor/CMakeFiles/test_can_comm.dir/src/canAPI.cpp.s
-	cd /home/yang/catkin_ws/build && $(MAKE) -f allegro_with_sensor/CMakeFiles/grasp.dir/build.make allegro_with_sensor/CMakeFiles/grasp.dir/src/canAPI.cpp.s
+	cd /home/yang/ws/allegro_ws/build && $(MAKE) -f allegro_with_sensor/CMakeFiles/ft_sensing.dir/build.make allegro_with_sensor/CMakeFiles/ft_sensing.dir/src/canAPI.cpp.s
+	cd /home/yang/ws/allegro_ws/build && $(MAKE) -f allegro_with_sensor/CMakeFiles/grasp.dir/build.make allegro_with_sensor/CMakeFiles/grasp.dir/src/canAPI.cpp.s
 .PHONY : src/canAPI.cpp.s
 
 src/main.o: src/main.cpp.o
@@ -488,7 +563,7 @@ src/main.o: src/main.cpp.o
 
 # target to build an object file
 src/main.cpp.o:
-	cd /home/yang/catkin_ws/build && $(MAKE) -f allegro_with_sensor/CMakeFiles/grasp.dir/build.make allegro_with_sensor/CMakeFiles/grasp.dir/src/main.cpp.o
+	cd /home/yang/ws/allegro_ws/build && $(MAKE) -f allegro_with_sensor/CMakeFiles/grasp.dir/build.make allegro_with_sensor/CMakeFiles/grasp.dir/src/main.cpp.o
 .PHONY : src/main.cpp.o
 
 src/main.i: src/main.cpp.i
@@ -497,7 +572,7 @@ src/main.i: src/main.cpp.i
 
 # target to preprocess a source file
 src/main.cpp.i:
-	cd /home/yang/catkin_ws/build && $(MAKE) -f allegro_with_sensor/CMakeFiles/grasp.dir/build.make allegro_with_sensor/CMakeFiles/grasp.dir/src/main.cpp.i
+	cd /home/yang/ws/allegro_ws/build && $(MAKE) -f allegro_with_sensor/CMakeFiles/grasp.dir/build.make allegro_with_sensor/CMakeFiles/grasp.dir/src/main.cpp.i
 .PHONY : src/main.cpp.i
 
 src/main.s: src/main.cpp.s
@@ -506,35 +581,35 @@ src/main.s: src/main.cpp.s
 
 # target to generate assembly for a file
 src/main.cpp.s:
-	cd /home/yang/catkin_ws/build && $(MAKE) -f allegro_with_sensor/CMakeFiles/grasp.dir/build.make allegro_with_sensor/CMakeFiles/grasp.dir/src/main.cpp.s
+	cd /home/yang/ws/allegro_ws/build && $(MAKE) -f allegro_with_sensor/CMakeFiles/grasp.dir/build.make allegro_with_sensor/CMakeFiles/grasp.dir/src/main.cpp.s
 .PHONY : src/main.cpp.s
 
-src/test_can_comm.o: src/test_can_comm.cpp.o
+src/main_wristFT.o: src/main_wristFT.cpp.o
 
-.PHONY : src/test_can_comm.o
+.PHONY : src/main_wristFT.o
 
 # target to build an object file
-src/test_can_comm.cpp.o:
-	cd /home/yang/catkin_ws/build && $(MAKE) -f allegro_with_sensor/CMakeFiles/test_can_comm.dir/build.make allegro_with_sensor/CMakeFiles/test_can_comm.dir/src/test_can_comm.cpp.o
-.PHONY : src/test_can_comm.cpp.o
+src/main_wristFT.cpp.o:
+	cd /home/yang/ws/allegro_ws/build && $(MAKE) -f allegro_with_sensor/CMakeFiles/ft_sensing.dir/build.make allegro_with_sensor/CMakeFiles/ft_sensing.dir/src/main_wristFT.cpp.o
+.PHONY : src/main_wristFT.cpp.o
 
-src/test_can_comm.i: src/test_can_comm.cpp.i
+src/main_wristFT.i: src/main_wristFT.cpp.i
 
-.PHONY : src/test_can_comm.i
+.PHONY : src/main_wristFT.i
 
 # target to preprocess a source file
-src/test_can_comm.cpp.i:
-	cd /home/yang/catkin_ws/build && $(MAKE) -f allegro_with_sensor/CMakeFiles/test_can_comm.dir/build.make allegro_with_sensor/CMakeFiles/test_can_comm.dir/src/test_can_comm.cpp.i
-.PHONY : src/test_can_comm.cpp.i
+src/main_wristFT.cpp.i:
+	cd /home/yang/ws/allegro_ws/build && $(MAKE) -f allegro_with_sensor/CMakeFiles/ft_sensing.dir/build.make allegro_with_sensor/CMakeFiles/ft_sensing.dir/src/main_wristFT.cpp.i
+.PHONY : src/main_wristFT.cpp.i
 
-src/test_can_comm.s: src/test_can_comm.cpp.s
+src/main_wristFT.s: src/main_wristFT.cpp.s
 
-.PHONY : src/test_can_comm.s
+.PHONY : src/main_wristFT.s
 
 # target to generate assembly for a file
-src/test_can_comm.cpp.s:
-	cd /home/yang/catkin_ws/build && $(MAKE) -f allegro_with_sensor/CMakeFiles/test_can_comm.dir/build.make allegro_with_sensor/CMakeFiles/test_can_comm.dir/src/test_can_comm.cpp.s
-.PHONY : src/test_can_comm.cpp.s
+src/main_wristFT.cpp.s:
+	cd /home/yang/ws/allegro_ws/build && $(MAKE) -f allegro_with_sensor/CMakeFiles/ft_sensing.dir/build.make allegro_with_sensor/CMakeFiles/ft_sensing.dir/src/main_wristFT.cpp.s
+.PHONY : src/main_wristFT.cpp.s
 
 # Help Target
 help:
@@ -542,14 +617,16 @@ help:
 	@echo "... all (the default if no target is provided)"
 	@echo "... clean"
 	@echo "... depend"
-	@echo "... install/local"
 	@echo "... rebuild_cache"
 	@echo "... edit_cache"
 	@echo "... test"
-	@echo "... test_can_comm"
+	@echo "... ft_sensing"
 	@echo "... grasp"
+	@echo "... install/local"
+	@echo "... geometry_msgs_generate_messages_eus"
 	@echo "... std_msgs_generate_messages_py"
 	@echo "... std_msgs_generate_messages_nodejs"
+	@echo "... geometry_msgs_generate_messages_py"
 	@echo "... roscpp_generate_messages_cpp"
 	@echo "... roscpp_generate_messages_eus"
 	@echo "... rosgraph_msgs_generate_messages_nodejs"
@@ -557,6 +634,7 @@ help:
 	@echo "... std_msgs_generate_messages_lisp"
 	@echo "... roscpp_generate_messages_py"
 	@echo "... install"
+	@echo "... geometry_msgs_generate_messages_lisp"
 	@echo "... std_msgs_generate_messages_eus"
 	@echo "... roscpp_generate_messages_nodejs"
 	@echo "... rosgraph_msgs_generate_messages_cpp"
@@ -564,6 +642,8 @@ help:
 	@echo "... std_msgs_generate_messages_cpp"
 	@echo "... rosgraph_msgs_generate_messages_eus"
 	@echo "... rosgraph_msgs_generate_messages_lisp"
+	@echo "... geometry_msgs_generate_messages_nodejs"
+	@echo "... geometry_msgs_generate_messages_cpp"
 	@echo "... roscpp_generate_messages_lisp"
 	@echo "... rosgraph_msgs_generate_messages_py"
 	@echo "... src/RockScissorsPaper.o"
@@ -575,9 +655,9 @@ help:
 	@echo "... src/main.o"
 	@echo "... src/main.i"
 	@echo "... src/main.s"
-	@echo "... src/test_can_comm.o"
-	@echo "... src/test_can_comm.i"
-	@echo "... src/test_can_comm.s"
+	@echo "... src/main_wristFT.o"
+	@echo "... src/main_wristFT.i"
+	@echo "... src/main_wristFT.s"
 .PHONY : help
 
 
@@ -589,6 +669,6 @@ help:
 # No rule that depends on this can have commands that come from listfiles
 # because they might be regenerated.
 cmake_check_build_system:
-	cd /home/yang/catkin_ws/build && $(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 0
+	cd /home/yang/ws/allegro_ws/build && $(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 0
 .PHONY : cmake_check_build_system
 
