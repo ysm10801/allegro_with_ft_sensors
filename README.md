@@ -6,7 +6,7 @@ Dist: Ubuntu 20.04, ROS Noetic
 HW: Allegro Hand V4 (Right), AIDIN ROBOTICS 6-Axis Miniature Sensor
 
 Prerequisites: [PCAN](https://www.peak-system.com/fileadmin/media/linux/index.htm)
-* Follow the instruction from <http://wiki.wonikrobotics.com/AllegroHandWiki/index.php/Allegro_Hand_Linux_Project>
+* Follow the instruction from <https://www.allegrohand.com/ah-v4-linux-project>
 
 ## Error Revision Notes
 - Allegro API from simlab utilizes compressed ID -> Can't divide force/torque of FT
