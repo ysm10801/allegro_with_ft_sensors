@@ -6,39 +6,7 @@
 
 #IncludeRegexTransform: 
 
-/home/yang/ws/allegro_ws/src/allegro_with_sensor/src/RockScissorsPaper.cpp
-rDeviceAllegroHandCANDef.h
-/home/yang/ws/allegro_ws/src/allegro_with_sensor/src/rDeviceAllegroHandCANDef.h
-BHand/BHand.h
--
-
 /home/yang/ws/allegro_ws/src/allegro_with_sensor/src/RockScissorsPaper.h
-
-/home/yang/ws/allegro_ws/src/allegro_with_sensor/src/canAPI.cpp
-stdio.h
--
-errno.h
--
-inttypes.h
--
-pthread.h
--
-syslog.h
--
-unistd.h
--
-windows.h
--
-malloc.h
--
-assert.h
--
-PCANBasic.h
--
-canDef.h
-/home/yang/ws/allegro_ws/src/allegro_with_sensor/src/canDef.h
-canAPI.h
-/home/yang/ws/allegro_ws/src/allegro_with_sensor/src/canAPI.h
 
 /home/yang/ws/allegro_ws/src/allegro_with_sensor/src/canAPI.h
 canDef.h
@@ -347,8 +315,6 @@ ros/init.h
 /opt/ros/noetic/include/ros/ros/init.h
 common.h
 /opt/ros/noetic/include/ros/common.h
-boost/bind.hpp
--
 xmlrpcpp/XmlRpcValue.h
 -
 
@@ -393,7 +359,7 @@ ros/message.h
 /opt/ros/noetic/include/ros/ros/message.h
 ros/serialization.h
 /opt/ros/noetic/include/ros/ros/serialization.h
-boost/bind.hpp
+boost/bind/bind.hpp
 -
 boost/thread/mutex.hpp
 -

@@ -80,9 +80,13 @@ const int	HAND_VERSION = 4;
 
 const double tau_cov_const_v4 = 1200.0; // 1200.0 for SAH040xxxxx
 
+const int FT_length = 6;
+
 // FT_sensor_calibration
-double r_ee = 0.087;
-double gripper_mass = 1.02;
+// double r_ee = 0.208;
+// double r_s = 0.043;
+double r_ee[3] = {0.0060, 0.0026, 0.07016};
+double gripper_mass = 1.2004;
 
 Matrix3d wRs = Matrix3d::Identity();
 Matrix3d s_r_hat = Matrix3d::Identity();
@@ -94,19 +98,19 @@ public:
     BilinearLPF(double sampleRate, double cutoffFrequency) {
         this->sampleRate = sampleRate;
         this->cutoffFrequency = cutoffFrequency;
-        for (int i=0 ; i<12 ; i++){
+        for (int i=0 ; i<FT_length ; i++){
             prevInput1[i] = 0.0;
             prevOutput1[i] = 0.0;
         }
     }
-    double* process(const double input[12]) {
-        static double output[12];
+    double* process(const double input[FT_length]) {
+        static double output[FT_length];
 
-        for (int i=0 ; i<12 ; i++){
+        for (int i=0 ; i<FT_length ; i++){
             output[i] = (2 - cutoffFrequency / sampleRate) / (2 + cutoffFrequency / sampleRate) * prevOutput1[i]
                 + (cutoffFrequency / sampleRate) / (2 + cutoffFrequency / sampleRate) * (input[i] + prevInput1[i]);
         }
-        for (int i=0 ; i<12 ; i++){
+        for (int i=0 ; i<FT_length ; i++){
             prevInput1[i] = input[i];
             prevOutput1[i] = output[i];
         }
@@ -115,8 +119,8 @@ public:
 private:
     double sampleRate;
     double cutoffFrequency;
-    double prevInput1[12];
-    double prevOutput1[12];
+    double prevInput1[FT_length];
+    double prevOutput1[FT_length];
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -148,14 +152,14 @@ char Getch()
 
 // FT Sensor Value /////
 
-double FT_calib[12] = {0};
-int calib_switch[4] = {0};
-double FT[12] = {0};
-double FT_temp[12] = {0};
+double FT_calib[FT_length] = {0};
+int calib_switch[2] = {0};
+double FT[FT_length] = {0};
+double FT_temp[FT_length] = {0};
 
-double FT_filtered[12] = {0};
+double FT_filtered[FT_length] = {0};
 
-BilinearLPF FT_lpf = BilinearLPF(200, 40);
+BilinearLPF FT_lpf = BilinearLPF(200, 20);
 
 bool bRun = true;
 int c = 0;
@@ -231,12 +235,10 @@ void GetFTVal(int sens_num, unsigned char data[8])
     gripper_grav << 0, 0, -gripper_mass*9.81;
 
     Vector3d s_gripper_force = sRw * gripper_grav;
-    printf("s_gripper_force: %f, %f, %f\n", s_gripper_force.x(), s_gripper_force.y(), s_gripper_force.z());
     Vector3d s_gripper_moment = s_r_hat*sRw * gripper_grav;
-    printf("s_gripper_moment: %f, %f, %f\n", s_gripper_moment.x(), s_gripper_moment.y(), s_gripper_moment.z());
 
     for(int i=0 ; i<3 ; i++){
-        if (sens_num==0||sens_num==2){
+        if (sens_num==0){
             switch(i){
                 case 0:
                     FT_temp[i+s]=TransF(data[i*2], data[i*2+1]) - s_gripper_force.x();
@@ -266,12 +268,15 @@ void GetFTVal(int sens_num, unsigned char data[8])
         }
     }
     for(int i=0 ; i<3 ; i++){
-        FT[i+s]=FT_temp[i+s]-FT_calib[i+s]/200;
+        FT[i+s]=FT_temp[i+s]-FT_calib[i+s];
     }
-    if(calib_switch[sens_num]<400){
+    if(calib_switch[sens_num]<400 && s_gripper_force.x()!=0 ){
         if (calib_switch[sens_num]>=200){
             for(int k = s ; k<s+3 ; k++){
-                FT_calib[k]+=FT_temp[k];
+                printf("s_gripper_moment: %f, %f, %f\n", s_gripper_moment.x(), s_gripper_moment.y(), s_gripper_moment.z());
+                printf("s_gripper_force: %f, %f, %f\n", s_gripper_force.x(), s_gripper_force.y(), s_gripper_force.z());
+
+                FT_calib[k]+=FT_temp[k]/200;
             }
         }
         calib_switch[sens_num]++;
@@ -279,7 +284,7 @@ void GetFTVal(int sens_num, unsigned char data[8])
 
     double* filtered_output = FT_lpf.process(FT);
 
-    for (int i=0 ; i<12 ; i++){
+    for (int i=0 ; i<FT_length ; i++){
         FT_filtered[i] = filtered_output[i];
     }
 }
@@ -294,9 +299,9 @@ void ee_pose_update_Callback(const geometry_msgs::PoseStamped::ConstPtr& msg)
     Matrix3d wRee = Quaterniond(qw, qx, qy, qz).toRotationMatrix();
     // printf("wRee's diagonal: %f, %f, %f\n", wRee(0,0), wRee(1,1), wRee(2,2));
     
-    s_r_hat << 0,    -r_ee,    0,
-               r_ee,     0,    0,
-               0,        0,    0;
+    s_r_hat << 0,       -r_ee[2],    r_ee[1],
+               r_ee[2],        0,   -r_ee[0],
+              -r_ee[1],  r_ee[0],         0;
 
     eeRs << 1,  0,  0,
             0,  1,  0,
@@ -333,14 +338,14 @@ static void* ioThreadProc(void* inst)
 //////////////////////////FT_sensor_publish///////////////////////
             ft_value_msg.data.clear();
         
-            for (size_t i = 0; i < 12; i++)
+            for (size_t i = 0; i < FT_length; i++)
             {
                 ft_value_msg.data.push_back(FT[i]);
             }
             ft_pub.publish(ft_value_msg);
             
             ft_filtered_value_msg.data.clear();
-            for (size_t i = 0; i < 12; i++)
+            for (size_t i = 0; i < FT_length; i++)
             {
                 ft_filtered_value_msg.data.push_back(FT_filtered[i]);
             }
@@ -618,7 +623,7 @@ bool OpenCAN()
     }
 
     //FT_calib_init
-    for(int c;c<4;c++){
+    for(int c;c<2;c++){
         calib_switch[c]=0;
     }
 
