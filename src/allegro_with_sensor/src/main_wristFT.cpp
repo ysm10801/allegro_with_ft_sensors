@@ -158,6 +158,8 @@ double FT[FT_length] = {0};
 double FT_temp[FT_length] = {0};
 
 double FT_filtered[FT_length] = {0};
+std::array<double, 42> jacobian_array;
+double Torque[7] = {0};
 
 BilinearLPF FT_lpf = BilinearLPF(200, 20);
 
@@ -287,6 +289,26 @@ void GetFTVal(int sens_num, unsigned char data[8])
     for (int i=0 ; i<FT_length ; i++){
         FT_filtered[i] = filtered_output[i];
     }
+
+    VectorXd FT_vector(6); FT_vector << FT_filtered[0], FT_filtered[1], FT_filtered[2], FT_filtered[3], FT_filtered[4], FT_filtered[5];
+    // printf("FT_vector: %f, %f, %f, %f, %f, %f\n", FT_vector(0), FT_vector(1), FT_vector(2), FT_vector(3), FT_vector(4), FT_vector(5));
+    Map<const Matrix<double, 6, 7>> jacobian(jacobian_array.data());
+
+    VectorXd Torque_vector(7); Torque_vector.setZero();
+    Torque_vector = jacobian.transpose() * FT_vector;
+    for (int i=0; i<7; i++)
+    {
+        Torque[i] = - Torque_vector(i); // sensed torque ==> to match with desired torque, minus sign is added
+    }
+    // printf("Torque: %f, %f, %f, %f, %f, %f, %f\n", Torque[0], Torque[1], Torque[2], Torque[3], Torque[4], Torque[5], Torque[6]);
+}
+
+void jacobian_Callback(const std_msgs::Float64MultiArray::ConstPtr& msg)
+{
+    for (int i = 0; i < 42; i++)
+    {
+        jacobian_array[i] = msg->data[i];
+    }
 }
 
 void ee_pose_update_Callback(const geometry_msgs::PoseStamped::ConstPtr& msg)
@@ -326,10 +348,12 @@ static void* ioThreadProc(void* inst)
     ros::Publisher ft_filtered_pub = nh.advertise<std_msgs::Float64MultiArray>("/ft_sensor_filtered_value", 7);
     ros::Publisher allegro_config_pub = nh.advertise<std_msgs::Float64MultiArray>("/allegro_joint_configurations", 7);
     ros::Publisher allegro_torque_pub = nh.advertise<std_msgs::Float64MultiArray>("/allegro_joint_torques", 7);
+    ros::Publisher joint_torque_pub = nh.advertise<std_msgs::Float64MultiArray>("/robot_torque_value", 7);
     std_msgs::Float64MultiArray ft_value_msg;
     std_msgs::Float64MultiArray ft_filtered_value_msg;
     std_msgs::Float64MultiArray allegro_config_msg;
     std_msgs::Float64MultiArray allegro_torque_msg;
+    std_msgs::Float64MultiArray joint_torque_msg;
     while (ioThreadRun)
     {
         /* wait for the event */
@@ -345,11 +369,19 @@ static void* ioThreadProc(void* inst)
             ft_pub.publish(ft_value_msg);
             
             ft_filtered_value_msg.data.clear();
+
             for (size_t i = 0; i < FT_length; i++)
             {
                 ft_filtered_value_msg.data.push_back(FT_filtered[i]);
             }
             ft_filtered_pub.publish(ft_filtered_value_msg);
+
+            joint_torque_msg.data.clear();
+            for (size_t i = 0 ; i < 7 ; i++)
+            {
+                joint_torque_msg.data.push_back(Torque[i]);
+            }
+            joint_torque_pub.publish(joint_torque_msg);
 //            printf(">CAN(%d): ", CAN_Ch);
 //            for(int nd=0; nd<len; nd++)
 //                printf("%02x ", data[nd]);
@@ -509,6 +541,7 @@ void MainLoop()
         ros::NodeHandle nh_sub;
         ros::Subscriber allegro_config_sub = nh_sub.subscribe("/allegro_joint_desired", 100, joint_config_Callback);
         ros::Subscriber ee_pose_sub = nh_sub.subscribe("/ee_pose", 100, ee_pose_update_Callback);
+        ros::Subscriber jacobian_sub = nh_sub.subscribe("/jacobian", 10, jacobian_Callback);
         ros::Rate rate(1000);
 
         // c = Getch();
